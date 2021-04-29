@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="./img/ccl-icon-land-shortcut.svg">
+    <title>Copernicus Land Monitoring Service</title>
+    <meta name="Description" content="We provide geographical information on land cover and its changes, land use, vegetation state, water cycle and earth surface energy variables for Europe and entire globe.">
+    <meta name="theme-color" content="#a0b128"/>
+    <!-- Copernicus Componen Library -->
+    <script src="./lib/jquery.min.js"></script>
+    <script src="./lib/slick.min.js"></script>
+    <script src="./lib/ccl-functions.js"></script>
+    <link rel="stylesheet" type="text/css" href="./lib/ccl/css/fonts.css" media="all">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="./lib/font-awesome/css/all.min.css" crossorigin="anonymous">
+    <!-- Styles -->
+    <link rel="stylesheet" type="text/css" href="./css/styles.css">
+    <!-- Scripts -->
+    <script src="./js/common-scripts.js"></script>
+    <script src="./js/index.js"></script>
+  </head>
+  <body>	
+    <header class="ccl-header">
+      <div class="ccl-header-tools">
+        <div class="ccl-container">
+          <div class="ccl-main-menu-collapse-button"><span class="ccl-icon-menu"></span></div>
+          <div class="ccl-search-collapse-button"><span class="ccl-icon-zoom"></span></div>
+          <div class="ccl-header-tools-container">
+            <ul class="ccl-header-menu-tools">
+              <li class="header-dropdown"><span>News & Events<span class="ccl-icon-chevron-thin-down"></span></span>
+                <ul>
+                  <li><a href="./news.html">News</a></li>
+                  <li><a href="./events.html">Events</a></li>
+                  <li><a href="./newsletter.html">Newsletter</a></li>
+                </ul>
+              </li>
+              <li><a href="./work-opportunities.html">Work opportunities</a></li>
+              <li class="header-dropdown"><span>Technical support<span class="ccl-icon-chevron-thin-down"></span></span>
+                <ul>
+                  <li><a href="./faq/faq-general.html">FAQs</a></li>
+                  <li><a href="./service-desk.html">Write to service desk</a></li>
+                  <li><a href="./guides.html">How-to guides</a></li>
+                </ul>
+              </li>
+              <li  class="header-vertical-line"><div>|</div></li>
+              <li><span class="header-login-link">Login/Register</span></li>
+            </ul>
+            <form class="ccl-header-search"><input type="text" placeholder="search" aria-label="Search"><button type="submit" aria-label="Search"><span class="ccl-icon-zoom"></span></button></form>
+            <div class="ccl-header-lang">
+              <div class="header-lang-icon">
+                <i class="ccl-icon-language"></i>
+                <span class="header-lang-code">EN</span>
+              </div>
+              <div class="header-lang-text">
+                <span>English</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ccl-header-nav ">
+        <div class="ccl-container">
+          <div class="ccl-header-logos-container">
+            <div class="ccl-header-logo-container">
+              <a href="http://www.copernicus.eu/" target="_blank" rel="noreferrer">
+                <img class="ccl-header-logo" src="./img/EU-Cop-logo.svg" alt="Copernicus logo"/>
+              </a>
+              <a href="./">
+                <img class="ccl-header-logo ccl-service-button" src="./img/ccl-icon-land-text.svg" alt="Home"/>
+              </a>
+            </div>
+          </div>
+          <nav class="ccl-main-menu">
+            <ul class="ccl-header-main-menu">
+              <li><a href="./product-portfolio/product-creation.html">Product portfolio</a></li>
+              <li><a href="./dataset-catalogue.html">Dataset catalogue</a></li>
+              <li><a href="./map-viewer.html">Map viewer</a></li>
+              <li><a href="./clms-made-easy.html">CLMS made easy</a></li>
+              <li><a href="./use-cases.html">Use cases</a></li>
+              <li><a href="./about-us/what-we-do.html">About us</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+    <div class="ccl-banner-top-container">
+      <div class="ccl-container">
+        <div class="ccl-banner-top-main-block-title">
+          <h1>Copernicus Land Monitoring Service (CLMS)</h1>
+          <h2>We provide geographical information on land cover and its changes, land use, vegetation state, water cycle and earth surface energy variables for Europe and entire globe.</h2>
+          <h3>Our products are free of charge and can be used for any purpose.</h3>
+        </div>
+      </div>
+    </div>
+    <div class="ccl-banner-top-bar"></div>
+    <div class="home-products-container">
+      <div class="home-product home-product-main">
+        <h3>Explore our products</h3>
+      </div>
+      <div class="home-product" id="home_product_1">
+        <div class="home-product-title">Land Cover and Land Use Mapping</div>
+      </div>
+      <div class="home-product" id="home_product_2">
+        <div class="home-product-title">Hot-spot Monitoring</div>
+      </div>
+      <div class="home-product" id="home_product_3">
+        <div class="home-product-title">Biophysical Parameters</div>
+      </div>
+      <div class="home-product" id="home_product_4">
+        <div class="home-product-title">Imagery, In Situ and Reference Data</div>
+      </div>
+      <div class="home-product" id="home_product_5">
+        <div class="home-product-title">European Ground Motion Service</div>
+      </div>
+    </div>
+    <div class="home-datasets-container">
+      <div class="ccl-container">
+        <h3>Find and download data</h3>
+        <div class="home-datasets-search">
+          <form class="ccl-form search-form">
+            <input type="text" class="ccl-text-input" id="home_search_datasets" name="homeSearchDatasets" placeholder="Search datasets" aria-label="Search datasets">
+            <button class="ccl-button" type="submit" aria-label="Search">
+              <span class="ccl-icon-zoom"></span>
+            </button>
+          </form>
+        </div>
+        <div class="home-datasets-text">
+          <span>More than XXX.XXX datasets in our </span><a href="./dataset-catalogue.html">Dataset catalogue</a>
+        </div>
+      </div>
+    </div>
+    <div class="home-map-container">
+      <div class="ccl-container">
+        <div class="home-map-banner">
+          <h3>View our products on the map</h3>
+          <a class="ccl-button ccl-button-green" href="./map-viewer.html">Open map viewer</a>
+        </div>
+      </div>
+    </div>
+    <div class="home-meet-container">
+      <div class="ccl-container">
+        <h3>Meet our users</h3>
+        <div class=" carousel-container">
+          <div class="ccl-list-items ccl-container ccl-list-carousel">
+            <div class="ccl-list-item ">
+              <div class="ccl-list-item-image">
+                <img src="https://eu-copernicus.github.io/copernicus-component-library/assets/images/image_placeholder.jpg" alt="Placeholder image" style="opacity: 0.5;">
+              </div>
+              <h4>This is a title 1</h4>
+              <p>This is a text with some info about the product. This is a text with some info about the product. </p>
+            </div>
+            <div class="ccl-list-item ">
+              <div class="ccl-list-item-image">
+                <img src="https://eu-copernicus.github.io/copernicus-component-library/assets/images/image_placeholder.jpg" alt="Placeholder image" style="opacity: 0.5;">
+              </div>
+              <h4>This is a title 2</h4>
+              <p>This is a text with some info about the product. This is a text with some info about the product. </p>
+            </div>
+            <div class="ccl-list-item ">
+              <div class="ccl-list-item-image">
+                <img src="https://eu-copernicus.github.io/copernicus-component-library/assets/images/image_placeholder.jpg" alt="Placeholder image" style="opacity: 0.5;">
+              </div>
+              <h4>This is a title 3</h4>
+              <p>This is a text with some info about the product. This is a text with some info about the product. </p>
+            </div>
+            <div class="ccl-list-item ">
+              <div class="ccl-list-item-image">
+                <img src="https://eu-copernicus.github.io/copernicus-component-library/assets/images/image_placeholder.jpg" alt="Placeholder image" style="opacity: 0.5;">
+              </div>
+              <h4>This is a title 4</h4>
+              <p>This is a text with some info about the product. This is a text with some info about the product. </p>
+            </div>
+            <div class="ccl-list-item ">
+              <div class="ccl-list-item-image">
+                <img src="https://eu-copernicus.github.io/copernicus-component-library/assets/images/image_placeholder.jpg" alt="Placeholder image" style="opacity: 0.5;">
+              </div>
+              <h4>This is a title 5</h4>
+              <p>This is a text with some info about the product. This is a text with some info about the product. </p>
+            </div>
+            <div class="ccl-list-item ">
+              <div class="ccl-list-item-image">
+                <img src="https://eu-copernicus.github.io/copernicus-component-library/assets/images/image_placeholder.jpg" alt="Placeholder image" style="opacity: 0.5;">
+              </div>
+              <h4>This is a title 6</h4>
+              <p>This is a text with some info about the product. This is a text with some info about the product. </p>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      <a class="ccl-button ccl-button--default" href="./use-cases.html">All use cases</a>
+    </div>
+    <div class="home-news-events-block">
+      <div class="ccl-container tab-container">
+        <div class="tabs" role="tablist">
+          <span class="tab tab-selected" id="news_tab" role= "tab" aria-controls="news_panel" aria-selected="true"><i class="far fa-newspaper"></i>News</span>
+          <span class="tab" id="events_tab" role= "tab" aria-controls="events_panel" aria-selected="false"><i class="far fa-calendar-alt"></i>Events</span>
+        </div>
+        <div class="panels">
+          <div class="panel panel-selected" id="news_panel" role="tabpanel" aria-hidden="false">
+            <div class="card-news">
+              <div class="card-news-image">
+                <img src="https://eu-copernicus.github.io/copernicus-component-library/assets/images/image_placeholder.jpg" alt="Placeholder image" style="opacity: 0.5;">
+              </div>
+              <div class="card-news-text">
+                <div class="card-news-title">
+                  <a href="./news/news-detail.html">News title</a>
+                </div>
+                <div class="card-news-date">dd/mm/yyyy</div>
+                <p class="card-news-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+              </div>
+            </div>
+            <div class="card-news">
+              <div class="card-news-image">
+                <img src="https://eu-copernicus.github.io/copernicus-component-library/assets/images/image_placeholder.jpg" alt="Placeholder image" style="opacity: 0.5;">
+              </div>
+              <div class="card-news-text">
+                <div class="card-news-title">
+                  <a href="./news/news-detail.html">News title</a>
+                </div>
+                <div class="card-news-date">dd/mm/yyyy</div>
+                <p class="card-news-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+              </div>
+            </div>
+            <div class="card-news">
+              <div class="card-news-image">
+                <img src="https://eu-copernicus.github.io/copernicus-component-library/assets/images/image_placeholder.jpg" alt="Placeholder image" style="opacity: 0.5;">
+              </div>
+              <div class="card-news-text">
+                <div class="card-news-title">
+                  <a href="./news/news-detail.html">News title</a>
+                </div>
+                <div class="card-news-date">dd/mm/yyyy</div>
+                <p class="card-news-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+              </div>
+            </div>
+            <a class="ccl-button ccl-button--default" href="./news.html">View all news</a>
+          </div>
+          <div class="panel" id="events_panel" role="tabpanel" aria-hidden="true">
+            <div class="card-event">
+              <div class="card-event-image">
+                <img src="https://eu-copernicus.github.io/copernicus-component-library/assets/images/image_placeholder.jpg" alt="Placeholder image" style="opacity: 0.5;">
+              </div>
+              <div class="card-event-text">
+                <div class="card-event-title">
+                  <a href="./events/event-detail.html">Event title</a>
+                </div>
+                <div class="card-event-date">dd/mm/yyyy</div>
+                <div class="card-event-when">
+                  <i class="far fa-calendar-alt"></i>
+                  <div class="card-event-when-text">dd/mm/yyyy - dd/mm/yyyy</div>
+                </div>
+                <div class="card-event-where">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <div class="card-event-where-text">Virtual</div>
+                </div>
+                <p class="card-event-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+              </div>
+            </div>
+            <div class="card-event">
+              <div class="card-event-image">
+                <img src="https://eu-copernicus.github.io/copernicus-component-library/assets/images/image_placeholder.jpg" alt="Placeholder image" style="opacity: 0.5;">
+              </div>
+              <div class="card-event-text">
+                <div class="card-event-title">
+                  <a href="./events/event-detail.html">Event title</a>
+                </div>
+                <div class="card-event-date">dd/mm/yyyy</div>
+                <div class="card-event-when">
+                  <i class="far fa-calendar-alt"></i>
+                  <div class="card-event-when-text">dd/mm/yyyy - dd/mm/yyyy</div>
+                </div>
+                <div class="card-event-where">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <div class="card-event-where-text">Virtual</div>
+                </div>
+                <p class="card-event-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+              </div>
+            </div>
+            <div class="card-event">
+              <div class="card-event-image">
+                <img src="https://eu-copernicus.github.io/copernicus-component-library/assets/images/image_placeholder.jpg" alt="Placeholder image" style="opacity: 0.5;">
+              </div>
+              <div class="card-event-text">
+                <div class="card-event-title">
+                  <a href="./events/event-detail.html">Event title</a>
+                </div>
+                <div class="card-event-date">dd/mm/yyyy</div>
+                <div class="card-event-when">
+                  <i class="far fa-calendar-alt"></i>
+                  <div class="card-event-when-text">dd/mm/yyyy - dd/mm/yyyy</div>
+                </div>
+                <div class="card-event-where">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <div class="card-event-where-text">Virtual</div>
+                </div>
+                <p class="card-event-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+              </div>
+            </div>
+            <a class="ccl-button ccl-button--default" href="./events.html">View all events</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <footer class="ccl-footer">
+    <div class="ccl-footer-main">
+      <div class="ccl-footer-logo"><a href="http://www.copernicus.eu/" target="_blank" rel="noreferrer"><img src="./img/copernicus_eu_logo_white.svg" class="ccl-footer-logo-img" alt="Copernicus"/></a></div>
+      <div class="ccl-container ccl-container-flex">
+        <div class="ccl-footer-col ">
+          <div class="ccl-footer-col-title">Copernicus Services</div>
+          <div class="ccl-footer-services">
+            <a href="https://atmosphere.copernicus.eu/" target="_blank" rel="noreferrer" class="ccl-service-button ccl-service-button-link ccl-service-button-w ccl-service-button-atmosphere">
+            <img class="ccl-svg ccl-service-button-icon" src="./img/ccl-icon-atmosphere.svg" alt=""/>Atmosphere
+            </a>
+            <a href="https://marine.copernicus.eu/" target="_blank" rel="noreferrer" class="ccl-service-button ccl-service-button-link ccl-service-button-w ccl-service-button-marine">
+            <img class="ccl-svg ccl-service-button-icon" src="./img/ccl-icon-marine.svg" alt=""/>Marine
+            </a>
+            <a href="https://land.copernicus.eu/" target="_blank" rel="noreferrer" class="ccl-service-button ccl-service-button-link ccl-service-button-w ccl-service-button-land">
+            <img class="ccl-svg ccl-service-button-icon" src="./img/ccl-icon-land.svg" alt=""/>Land
+            </a>
+            <a href="https://www.copernicus.eu/en/services/security" target="_blank" rel="noreferrer" class="ccl-service-button ccl-service-button-link ccl-service-button-w ccl-service-button-security">
+            <img class="ccl-svg ccl-service-button-icon" src="./img/ccl-icon-security.svg" alt=""/>Security
+            </a>
+            <a href="https://climate.copernicus.eu/" target="_blank" rel="noreferrer" class="ccl-service-button ccl-service-button-link ccl-service-button-w ccl-service-button-climate">
+            <img class="ccl-svg ccl-service-button-icon" src="./img/ccl-icon-climate.svg" alt=""/>Climate Change
+            </a>
+            <a href="https://emergency.copernicus.eu/" target="_blank" rel="noreferrer" class="ccl-service-button ccl-service-button-link ccl-service-button-w ccl-service-button-emergency">
+            <img class="ccl-svg ccl-service-button-icon" src="./img/ccl-icon-emergency.svg" alt=""/>Emergency
+            </a>
+          </div>
+        </div>
+        <div class="ccl-footer-col">
+          <div class="ccl-footer-form-title">Newsletter</div>
+          <form class="ccl-footer-form">
+            <input type="text" class="footer-privacy-input" placeholder="Enter an email adress" aria-label="Enter an email adress"><button class="footer-privacy-button" type="submit">Subscribe</button>
+          </form>
+          <div class="ccl-form footer-privacy-check">
+            <div class="ccl-form-group">
+              <input type="checkbox" id="footer_privacy" name="footerPrivacy" value="" class="ccl-checkbox  ccl-form-check-input" aria-required="true">
+              <label class="ccl-form-check-label" for="footer_privacy">
+                I agree to the <a href="./personal-data-protection.html" target="_blank">privacy policy.</a>
+              </label>
+            </div>
+          </div>
+          <div class="ccl-footer-col-title">Follow us</div>
+          <div class="ccl-footer-social">
+            <a href="https://www.youtube.com/channel/UCpuwnbuwGG20enAdE50g6TA" target="_blank" rel="noreferrer" aria-label="Youtube"><span class="ccl-icon-youtube"></span></a>
+            <a href="https://twitter.com/CopernicusLand" target="_blank" rel="noreferrer" aria-label="Twitter"><span class="ccl-icon-twitter"></span></a>
+            <a href="https://www.facebook.com/CopernicusEU" target="_blank" rel="noreferrer" aria-label="Facebook"><span class="ccl-icon-facebook"></span></a>
+        </div>
+        </div>
+        <div class="ccl-footer-col">
+          <div class="ccl-footer-col-title">Implemented by</div>
+          <div class="footer-implemented footer-implemented-eea">
+            <a href="https://www.eea.europa.eu/" target="_blank" rel="noreferrer">
+              <img class="ccl-svg ccl-service-button-icon" src="./img/eea-logo.svg" alt="EEA"/>
+            </a>
+          </div>
+          <div class="footer-implemented footer-implemented-ec">
+              <a href="https://ec.europa.eu/" target="_blank" rel="noreferrer">
+                <img class="ccl-svg ccl-service-button-icon" src="./img/ec-logo-white.svg" alt="DG Joint Research Center"/>
+              </a>
+              <span>DG Joint Research Center</span>
+          </div>
+          <div class="ccl-footer-col-title">Expert support provided by</div>
+          <p>EIONET Action Group on Land monitoring in Europe (EAGLE)</p>
+        </div>
+      </div>
+    </div>
+    <div class="ccl-footer-bottom">
+      <ul class="ccl-footer-legal">
+        <li>
+          <a class="ccl-link" href="./disclaimer.html">Disclaimer</a>
+        </li>
+        <li>
+          <a class="ccl-link" href="./data-policy.html">Data policy</a>
+        </li>
+        <li>
+          <a class="ccl-link" href="./personal-data-protection.html">Personal data protection</a>
+        </li>
+        <li>
+          <a class="ccl-link" href="./cookies.html">Cookies</a>
+        </li>
+        <li>
+          <a class="ccl-link" href="./sitemap.html">Sitemap</a>
+        </li>
+      </ul>
+    </div>
+    </footer>
+    <div class="modal modal-login" id="login_modal">
+      <div class="modal-login-background">
+        <div class="modal-login-container">
+          <div class="modal-close modal-login-close">
+            <span class="ccl-icon-close" aria-label="Close"></span>
+          </div>
+          <div class="modal-login-title">Login</div>
+          <div class="modal-login-content">
+            <div class="modal-login-field">
+              <i class="fas fa-user"></i>
+              <input type="text" class="ccl-text-input" placeholder="User name" aria-label="User name">
+            </div>
+            <div class="modal-login-field">
+              <i class="fas fa-unlock-alt"></i>
+              <input type="password" class="ccl-text-input" placeholder="Password" aria-label="Password">
+            </div>
+            <a href="./reset-password.html">Forgot your password?</a>
+          </div>
+          <button class="ccl-button ccl-button-green modal-login-button">Login</button>
+          <hr>
+          <div class="modal-login-title">New user</div>
+          <div class="modal-login-text">
+            Registration is free. Personal data will only be used internally. For more details, see the <a href="./personal-data-protection.html" target="_blank">Personal data protection</a>.
+          </div>
+          <a href="./register.html" class="ccl-button ccl-button--default">Register</a>
+        </div>
+      </div>
+    </div>
+    <div class="modal modal-language" id="language_modal">
+      <div class="modal-language-background">
+        <div class="modal-language-container">
+          <div class="ccl-container">
+            <div class="modal-language-header">
+              <div class="modal-language-title">
+                <i class="ccl-icon-language"></i>
+                <h3 class="modal-title">Select your language</h3>
+              </div>
+              <div class="modal-close modal-language-close">
+                <span class="ccl-icon-close" aria-label="Close"></span>
+              </div>
+            </div>
+            <div class="modal-language-body">
+              <div class="language-list">
+                <div class="language-item language-item-selected">
+                  <span class="language-link" lang-code="EN">English</span>
+                </div>
+                <div class="language-item">
+                  <span class="language-link" lang-code="FR">Français</span>
+                </div>
+                <div class="language-item">
+                  <span class="language-link" lang-code="DE">Deutsch</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

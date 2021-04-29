@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../img/ccl-icon-land-shortcut.svg">
+    <title>Copernicus Land Monitoring Service</title>
+    <meta name="Description" content="We provide geographical information on land cover and its changes, land use, vegetation state, water cycle and earth surface energy variables for Europe and entire globe.">
+    <meta name="theme-color" content="#a0b128"/>
+    <!-- Copernicus Componen Library -->
+    <script src="../lib/jquery.min.js"></script>
+    <script src="../lib/slick.min.js"></script>
+    <script src="../lib/ccl-functions.js"></script>
+    <link rel="stylesheet" type="text/css" href="../lib/ccl/css/fonts.css" media="all">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../lib/font-awesome/css/all.min.css" crossorigin="anonymous">
+    <!-- Styles -->
+    <link rel="stylesheet" type="text/css" href="../css/styles.css">
+    <!-- Scripts -->
+    <script src="../js/common-scripts.js"></script>
+  </head>
+  <body>
+    <header class="ccl-header">
+      <div class="ccl-header-tools">
+        <div class="ccl-container">
+          <div class="ccl-main-menu-collapse-button"><span class="ccl-icon-menu"></span></div>
+          <div class="ccl-search-collapse-button"><span class="ccl-icon-zoom"></span></div>
+          <div class="ccl-header-tools-container">
+            <ul class="ccl-header-menu-tools">
+              <li class="header-dropdown"><span>News & Events<span class="ccl-icon-chevron-thin-down"></span></span>
+                <ul>
+                  <li><a href="../news.html">News</a></li>
+                  <li><a href="../events.html">Events</a></li>
+                  <li><a href="../newsletter.html">Newsletter</a></li>
+                </ul>
+              </li>
+              <li><a href="../work-opportunities.html">Work opportunities</a></li>
+              <li class="header-dropdown"><span>Technical support<span class="ccl-icon-chevron-thin-down"></span></span>
+                <ul>
+                  <li><a href="../faq/faq-general.html">FAQs</a></li>
+                  <li><a href="../service-desk.html">Write to service desk</a></li>
+                  <li><a href="../guides.html">How-to guides</a></li>
+                </ul>
+              </li>
+              <li  class="header-vertical-line"><div>|</div></li>
+              <li><span class="header-login-link">Login/Register</span></li>
+            </ul>
+            <form class="ccl-header-search"><input type="text" placeholder="search" aria-label="Search"><button type="submit" aria-label="Search"><span class="ccl-icon-zoom"></span></button></form>
+            <div class="ccl-header-lang">
+              <div class="header-lang-icon">
+                <i class="ccl-icon-language"></i>
+                <span class="header-lang-code">EN</span>
+              </div>
+              <div class="header-lang-text">
+                <span>English</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ccl-header-nav ">
+        <div class="ccl-container">
+          <div class="ccl-header-logos-container">
+            <div class="ccl-header-logo-container">
+              <a href="http://www.copernicus.eu/" target="_blank" rel="noreferrer">
+                <img class="ccl-header-logo" src="../img/EU-Cop-logo.svg" alt="Copernicus logo"/>
+              </a>
+              <a href="../">
+                <img class="ccl-header-logo ccl-service-button" src="../img/ccl-icon-land-text.svg" alt="Home"/>
+              </a>
+            </div>
+          </div>
+          <nav class="ccl-main-menu">
+            <ul class="ccl-header-main-menu">
+              <li><a href="../product-portfolio/product-creation.html">Product portfolio</a></li>
+              <li><a href="../dataset-catalogue.html">Dataset catalogue</a></li>
+              <li><a href="../map-viewer.html">Map viewer</a></li>
+              <li><a href="../clms-made-easy.html">CLMS made easy</a></li>
+              <li><a href="../use-cases.html">Use cases</a></li>
+              <li><a href="../about-us/what-we-do.html">About us</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+    <hr>
+    <main>
+      <div class="ccl-container">
+        <section class="page-section">
+            <nav class="ccl-breadcrumb" aria-label="breadcrumb">
+              <span class="ccl-u-sr-only">You are here:</span>
+              <ol class="ccl-breadcrumb__segments-wrapper">
+                <li class="ccl-breadcrumb__segment ccl-breadcrumb__segment--first">
+                  <a class="ccl-link ccl-link--inverted ccl-link--standalone ccl-breadcrumb__link" href="../">Home</a>
+                </li>
+                <li class="ccl-breadcrumb__segment">
+                  <a class="ccl-link ccl-link--inverted ccl-link--standalone ccl-breadcrumb__link" href="../faq/faq-general.html">FAQs</a>
+                </li>
+                <li class="ccl-breadcrumb__segment ccl-breadcrumb__segment--last">
+                  <span>CORINE Land Cover (CLC)</span>
+                </li>
+              </ol>
+            </nav>
+            <h1 class="page-title">CORINE Land Cover (CLC)</h1>
+            <div class="page-description">
+              <p>
+                In this section you will find some of the questions asked by portal users and answers to them. If you can't find an answer to your question here, please <a href="../service-desk.html">contact us</a>.
+              </p>
+            </div>
+            <hr>
+          </section>
+      </div>
+      <div class="ccl-container ccl-container-flex">
+        <div class="left-content cont-w-25">
+          <nav class="left-menu">
+            <div class="card">
+              <a href="../faq/faq-general.html" class="collapsed">General data access and legal questions</a>
+            </div>
+            <div class="card active">
+              <a href="../faq/faq-clc.html" class="collapsed">Corine Land Cover</a>
+            </div>
+            <div class="card">
+              <a href="../faq/faq-hrl.html" class="collapsed">High Resolution Layers</a>
+            </div>
+            <div class="card">
+              <a href="../faq/faq-urban-atlas.html" class="collapsed">Urban Atlas</a>
+            </div>
+          </nav>
+        </div>
+        <div class="right-content cont-w-75">
+          <div class="faq-block">
+            <div class="faq-dropdown">
+              <div class="ccl-expandable__button" aria-expanded="false">
+                <div class="faq-dropdown-question">
+                  <b class="faq-dropdown-letter">Q</b>
+                  <div class="faq-dropdown-title">
+                    <h2>I am interested in analysing environmental changes between 2000 and 2018 based on CORINE Land Cover time series. Should I use CLC-Change or CLC status layers? </h2>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div class="faq-dropdown-answer">
+                  <b class="faq-dropdown-letter">A</b>
+                  <div class="faq-dropdown-text">
+                    <p>
+                      The CLC-Change layer is proposed to be used in case of analysing of changes, because:
+                    </p>
+                    <ul class="ul-list">
+                      <li>
+                        The CLC-Change layer is more detailed (resolution / MMU = 5 ha) compared to the resolution of the status layers (MMU = 25 ha).
+                      </li>
+                      <ul class="ul-list">
+                        <li>The methodology of update includes two directly derived layers: the revised version of the previous CLC (revised-CLC_old) and the CLC changes between year(old) and year(new) (CLC-Change(old-new)). The updated CLC (CLC_new) is derived in GIS according to the equation below. This process includes generalisation of areas below the 25 ha MMU.
+                        </li>
+                        <p>
+                          CLC_new = revised-CLC_old + CLC-Change(old-new)
+                        </p>
+                      </ul>
+                    </ul>
+                    <p>
+                      The typical reasons for need of revising the CLC status layer are as follows:
+                    </p>
+                    <ul class="ul-list">
+                      <li>
+                        Availability of a new satellite image provides additional information to correctly recognise a feature. E.g. a young forest was not recognised in CLC2012, but in the 2018 update it became evident for the photointerpreter (because of forest growth and/or better resolution images). To avoid mapping false changes, the CLC2012 database had to be corrected (revised).
+                      </li>
+                      <li>
+                        Improved availability and better quality of in-situ data. Just to mention two examples: (1) using orthophotos was restricted in some countries of Europe around 2000; (2) Google Earth data are gradually improving in coverage and quality.
+                      </li>
+                      <li>
+                        Improved skills on behalf of photointerpreters, i.e. better understanding and harmonised application of CLC nomenclature.
+                      </li>
+                      <li>
+                        Changes in methodology of updating. Photointerpretation replaced by semi-automatic, bottom-up methodology in some countries e.g. Germany, Ireland, Spain, Portugal.
+                      </li>
+                      <li>
+                        Sometimes National Team discover and correct some systematic mistakes in their CLC during the period between two CLC inventories. A recent example is that before mapping CLC 2018 Sweden had improved the separation of coniferous forests and peatbogs in CLC 2012 (creating a revised CLC 2012).
+                      </li>
+                    </ul>
+                    <p>
+                      For the sake of simplicity let’s consider the comparison (intersect) of two consecutive status layers (e.g. CLC 2012 and CLC 2018; MMU = 25 ha). It is highly probable that some non-real changes will be derived compared to CLC-Change (2012-2018). The volume of non-real changes depends on two factors:
+                    </p>
+                    <ul class="ul-list">
+                      <li>                          
+                        The amount of revision implemented on CLC 2012. These can be sorted out by comparing CLC 2018 and revised-CLC 2012.
+                      </li>
+                      <li>
+                        The number of CLC changes belonging to the 5 – 25 ha size range. No such problem would exist if all CLC changes were above 25 ha (i.e. MMU for status and change layer would be the same). Using two status layers with 25 ha resolution, CLC-Change layer with 5 ha resolution cannot be retrieved.
+                      </li>
+                    </ul>
+                    <p>
+                      The difference between CLC 2018 and CLC 2000 will include real changes and non-real changes:
+                    </p>
+                    <ul class="ul-list">
+                      <li>                          
+                        The real changes actually took place in the environment between 2000 and 2018.
+                      </li>
+                      <li>
+                        The non-real changes are not actual changes in the environment, but differences between datasets coming from consecutive revisions carried out on CLC 2000, CLC 2006 and CLC 2012 databases during the implementation of CLC 2006, CLC 2012 and CLC 2018 projects, respectively.
+                      </li>
+                    </ul>
+                    <p>
+                      The difference of CLC 2018 and CLC 2000 would provide an approximation of real changes only if no revisions in any of the three involved CLC status layers (CLC 2000, CLC 2006, CLC 2012) had taken place. Even if this was the case, exact change values cannot be obtained in practice because of the different MMUs of the status and change layers.
+                    </p>
+                    <p>
+                      Thus, instead of comparing CLC 2000 and CLC 2018, it is proposed to derive gains and losses between 2000 and 2018 by summing up (adding together) the three CLC-Change layers spanning the period of investigation.
+                    </p>
+                    <p>
+                      An earlier study showed that the inconsistency between two consecutive CLC-Change layers was modest (covering about 1% of all changes).
+                    </p>
+                    <p>
+                      <a href="https://land.copernicus.eu/user-corner/technical-library/Change_harmonization_report_final.pdf" target="_blank" rel="noreferrer">https://land.copernicus.eu/user-corner/technical-library/Change_harmonization_report_final.pdf</a>
+                    </p>
+                    <p>
+                      If status layers from the past are needed, these could be derived backward from deducting CLC-Change layers consecutively from the latest (best available) status layer. These synthetized CLCs are called “accounting layers”.  The accounting layers are available at:
+                    </p>
+                    <p>
+                      <a href="https://www.eea.europa.eu/data-and-maps/data/corine-land-cover-accounting-layers" target="_blank" rel="noreferrer">https://www.eea.europa.eu/data-and-maps/data/corine-land-cover-accounting-layers</a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="faq-dropdown">
+              <div class="ccl-expandable__button" aria-expanded="false">
+                <div class="faq-dropdown-question">
+                  <b class="faq-dropdown-letter">Q</b>
+                  <div class="faq-dropdown-title">
+                    <h2>...</h2>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div class="faq-dropdown-answer">
+                  <b class="faq-dropdown-letter">A</b>
+                  <div class="faq-dropdown-text">
+                    <p>
+                      ...
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="faq-dropdown">
+              <div class="ccl-expandable__button" aria-expanded="false">
+                <div class="faq-dropdown-question">
+                  <b class="faq-dropdown-letter">Q</b>
+                  <div class="faq-dropdown-title">
+                    <h2>...</h2>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div class="faq-dropdown-answer">
+                  <b class="faq-dropdown-letter">A</b>
+                  <div class="faq-dropdown-text">
+                    <p>
+                      ...
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer class="ccl-footer">
+      <div class="ccl-footer-main">
+        <div class="ccl-footer-logo"><a href="http://www.copernicus.eu/" target="_blank" rel="noreferrer"><img src="../img/copernicus_eu_logo_white.svg" class="ccl-footer-logo-img" alt="Copernicus"/></a></div>
+        <div class="ccl-container ccl-container-flex">
+          <div class="ccl-footer-col ">
+            <div class="ccl-footer-col-title">Copernicus Services</div>
+            <div class="ccl-footer-services">
+              <a href="https://atmosphere.copernicus.eu/" target="_blank" rel="noreferrer" class="ccl-service-button ccl-service-button-link ccl-service-button-w ccl-service-button-atmosphere">
+              <img class="ccl-svg ccl-service-button-icon" src="../img/ccl-icon-atmosphere.svg" alt=""/>Atmosphere
+              </a>
+              <a href="https://marine.copernicus.eu/" target="_blank" rel="noreferrer" class="ccl-service-button ccl-service-button-link ccl-service-button-w ccl-service-button-marine">
+              <img class="ccl-svg ccl-service-button-icon" src="../img/ccl-icon-marine.svg" alt=""/>Marine
+              </a>
+              <a href="https://land.copernicus.eu/" target="_blank" rel="noreferrer" class="ccl-service-button ccl-service-button-link ccl-service-button-w ccl-service-button-land">
+              <img class="ccl-svg ccl-service-button-icon" src="../img/ccl-icon-land.svg" alt=""/>Land
+              </a>
+              <a href="https://www.copernicus.eu/en/services/security" target="_blank" rel="noreferrer" class="ccl-service-button ccl-service-button-link ccl-service-button-w ccl-service-button-security">
+              <img class="ccl-svg ccl-service-button-icon" src="../img/ccl-icon-security.svg" alt=""/>Security
+              </a>
+              <a href="https://climate.copernicus.eu/" target="_blank" rel="noreferrer" class="ccl-service-button ccl-service-button-link ccl-service-button-w ccl-service-button-climate">
+              <img class="ccl-svg ccl-service-button-icon" src="../img/ccl-icon-climate.svg" alt=""/>Climate Change
+              </a>
+              <a href="https://emergency.copernicus.eu/" target="_blank" rel="noreferrer" class="ccl-service-button ccl-service-button-link ccl-service-button-w ccl-service-button-emergency">
+              <img class="ccl-svg ccl-service-button-icon" src="../img/ccl-icon-emergency.svg" alt=""/>Emergency
+              </a>
+            </div>
+          </div>
+          <div class="ccl-footer-col">
+            <div class="ccl-footer-form-title">Newsletter</div>
+            <form class="ccl-footer-form">
+              <input type="text" class="footer-privacy-input" placeholder="Enter an email adress" aria-label="Enter an email adress"><button class="footer-privacy-button" type="submit">Subscribe</button>
+            </form>
+            <div class="ccl-form footer-privacy-check">
+              <div class="ccl-form-group">
+                <input type="checkbox" id="footer_privacy" name="footerPrivacy" value="" class="ccl-checkbox  ccl-form-check-input" aria-required="true">
+                <label class="ccl-form-check-label" for="footer_privacy">
+                  I agree to the <a href="../personal-data-protection.html" target="_blank">privacy policy.</a>
+                </label>
+              </div>
+            </div>
+            <div class="ccl-footer-col-title">Follow us</div>
+            <div class="ccl-footer-social">
+              <a href="https://www.youtube.com/channel/UCpuwnbuwGG20enAdE50g6TA" target="_blank" rel="noreferrer" aria-label="Youtube"><span class="ccl-icon-youtube"></span></a>
+              <a href="https://twitter.com/CopernicusLand" target="_blank" rel="noreferrer" aria-label="Twitter"><span class="ccl-icon-twitter"></span></a>
+              <a href="https://www.facebook.com/CopernicusEU" target="_blank" rel="noreferrer" aria-label="Facebook"><span class="ccl-icon-facebook"></span></a>
+          </div>
+          </div>
+          <div class="ccl-footer-col">
+            <div class="ccl-footer-col-title">Implemented by</div>
+            <div class="footer-implemented footer-implemented-eea">
+              <a href="https://www.eea.europa.eu/" target="_blank" rel="noreferrer">
+                <img class="ccl-svg ccl-service-button-icon" src="../img/eea-logo.svg" alt="EEA"/>
+              </a>
+            </div>
+            <div class="footer-implemented footer-implemented-ec">
+              <a href="https://ec.europa.eu/" target="_blank" rel="noreferrer">
+                <img class="ccl-svg ccl-service-button-icon" src="../img/ec-logo-white.svg" alt="DG Joint Research Center"/>
+              </a>
+              <span>DG Joint Research Center</span>
+            </div>
+            <div class="ccl-footer-col-title">Expert support provided by</div>
+            <p>EIONET Action Group on Land monitoring in Europe (EAGLE)</p>
+          </div>
+        </div>
+      </div>
+      <div class="ccl-footer-bottom">
+        <ul class="ccl-footer-legal">
+          <li>
+            <a class="ccl-link" href="../disclaimer.html">Disclaimer</a>
+          </li>
+          <li>
+            <a class="ccl-link" href="../data-policy.html">Data policy</a>
+          </li>
+          <li>
+            <a class="ccl-link" href="../personal-data-protection.html">Personal data protection</a>
+          </li>
+          <li>
+            <a class="ccl-link" href="../cookies.html">Cookies</a>
+          </li>
+          <li>
+            <a class="ccl-link" href="../sitemap.html">Sitemap</a>
+          </li>
+        </ul>
+      </div>
+    </footer>
+    <div class="modal modal-login" id="login_modal">
+      <div class="modal-login-background">
+        <div class="modal-login-container">
+          <div class="modal-close modal-login-close">
+            <span class="ccl-icon-close" aria-label="Close"></span>
+          </div>
+          <div class="modal-login-title">Login</div>
+          <div class="modal-login-content">
+            <div class="modal-login-field">
+              <i class="fas fa-user"></i>
+              <input type="text" class="ccl-text-input" placeholder="User name" aria-label="User name">
+            </div>
+            <div class="modal-login-field">
+              <i class="fas fa-unlock-alt"></i>
+              <input type="password" class="ccl-text-input" placeholder="Password" aria-label="Password">
+            </div>
+            <a href="../reset-password.html">Forgot your password?</a>
+          </div>
+          <button class="ccl-button ccl-button-green modal-login-button">Login</button>
+          <hr>
+          <div class="modal-login-title">New user</div>
+          <div class="modal-login-text">
+            Registration is free. Personal data will only be used internally. For more details, see the <a href="../personal-data-protection.html" target="_blank">Personal data protection</a>.
+          </div>
+          <a href="../register.html" class="ccl-button ccl-button--default">Register</a>
+        </div>
+      </div>
+    </div>
+    <div class="modal modal-language" id="language_modal">
+      <div class="modal-language-background">
+        <div class="modal-language-container">
+          <div class="ccl-container">
+            <div class="modal-language-header">
+              <div class="modal-language-title">
+                <i class="ccl-icon-language"></i>
+                <h3 class="modal-title">Select your language</h3>
+              </div>
+              <div class="modal-close modal-language-close">
+                <span class="ccl-icon-close" aria-label="Close"></span>
+              </div>
+            </div>
+            <div class="modal-language-body">
+              <div class="language-list">
+                <div class="language-item language-item-selected">
+                  <span class="language-link" lang-code="EN">English</span>
+                </div>
+                <div class="language-item">
+                  <span class="language-link" lang-code="FR">Français</span>
+                </div>
+                <div class="language-item">
+                  <span class="language-link" lang-code="DE">Deutsch</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
