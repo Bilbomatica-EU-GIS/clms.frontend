@@ -24,6 +24,7 @@
 .esri-component.esri-zoom.esri-widget {
   margin-bottom: 0;
   box-shadow: none;
+  background: none;
 }
 .esri-widget--button {
   background-color: #a0b128cc;
@@ -47,24 +48,79 @@
   background-color: #cfd893;
   cursor: auto;
 }
+
+/* Basemap */
+.basemap-container {
+  display: flex;
+  box-shadow: none !important;
+}
 .esri-basemap-gallery {
   display: none;
-}
-.esri-view-height-small .esri-ui-corner .esri-component.esri-widget--panel-height-only {
-  max-height: 260px;
+  margin: 0 !important;
 }
 .esri-basemap-gallery__item:first-child {
   margin: 0;
 }
-.basemap-gallery-container {
+.esri-view-height-small .esri-ui-corner .esri-component.esri-widget--panel-height-only {
+  max-height: 260px;
+}
+.esri-basemap-gallery__item--selected, .esri-basemap-gallery__item.esri-basemap-gallery__item--selected:hover, .esri-basemap-gallery__item.esri-basemap-gallery__item--selected:focus {
+  border-left-color: #7c8921;
+  background-color: #a0b1280f;
+}
+.esri-view-width-greater-than-large .esri-ui-corner .esri-basemap-gallery.esri-component .esri-basemap-gallery__item--selected, .esri-view-width-greater-than-large .esri-ui-corner .esri-basemap-gallery.esri-component .esri-basemap-gallery__item.esri-basemap-gallery__item--selected:hover, .esri-view-width-greater-than-large .esri-ui-corner .esri-basemap-gallery.esri-component .esri-basemap-gallery__item.esri-basemap-gallery__item--selected:focus {
+  border-color: #a0b128;
+}
+
+/* Measure */
+.measurement-container {
   display: flex;
-}
-.esri-basemap-gallery {
-  margin: 0 !important;
-}
-.basemap-gallery-container {
   box-shadow: none !important;
 }
+.esri-measurement {
+  display: block;
+  flex-direction: column;
+  width: 225px;
+}
+.measurement-panel {
+  display: none;
+}
+.measurement-buttons {
+  display: flex;
+  justify-content: space-evenly;
+  background: white;
+}
+.measurement-buttons .esri-widget--button {
+  background-color: white;
+  color: #a0b128;
+  width: 100%;
+  border-bottom: solid 4px transparent !important;
+}
+.measurement-buttons .esri-widget--button.active {
+  border-color: #a0b128 !important;
+}
+.esri-measurement .esri-area-measurement-2d__clear-button, .esri-measurement .esri-distance-measurement-2d__clear-button {
+  color: #a0b128;
+  border-color: #a0b128;
+  -webkit-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+  background-color: white;
+}
+.esri-measurement .esri-area-measurement-2d__clear-button:hover, .esri-measurement .esri-distance-measurement-2d__clear-button:hover {
+  color: white;
+  background-color: #a0b128;
+}
+.esri-measurement p {
+  font-size: 1rem;
+}
+.measurement-coords {
+  display: none;
+  background-color: white;
+  padding: 1rem;
+  max-width: 225px;
+}
+
+/* Left menu */
 .map-menu {
   display: none;
   max-width: min-content;
