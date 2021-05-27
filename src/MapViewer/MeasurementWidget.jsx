@@ -29,10 +29,8 @@ class MeasurementWidget extends React.Component {
             // By invoking the setState, we notify the state we want to reach
             // and ensure that the component is rendered again
             this.setState({showMapMenu: false});
-            this.state.ShowCoords.remove();
             this.container.current.querySelector('.active').classList.remove("active");
             this.container.current.querySelector('.esri-icon-measure-area').classList.add("active");
-            this.setState({latlong: ""});
             this.clearMeasurements();
             this.clearCoordinates();
         } else {
@@ -90,6 +88,8 @@ class MeasurementWidget extends React.Component {
 
     clearCoordinates() {
         this.container.current.querySelector(".measurement-coords").style.display = 'none';
+        this.setState({latlong: false});
+        this.state.ShowCoords && this.state.ShowCoords.remove();
     }
     /**
      * This method is executed after the rener method is executed

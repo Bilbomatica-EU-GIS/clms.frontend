@@ -1,11 +1,11 @@
-import BasemapGallery from "@arcgis/core/widgets/BasemapGallery";
+import Print from "@arcgis/core/widgets/Print";
 import React, { useState, createRef } from "react";
 import "@arcgis/core/assets/esri/css/main.css";
 import "./ArcgisMap.css";
 
-class BasemapWidget extends React.Component {
+class PrintWidget extends React.Component {
     /**
-     * Creator of the Basemap widget class
+     * Creator of the Measurement widget class
      * @param {*} props 
      */
     constructor(props) {
@@ -15,7 +15,7 @@ class BasemapWidget extends React.Component {
         //Initially, we set the state of the component to 
         //not be showing the basemap panel
         this.state = {showMapMenu: false};
-        this.menuClass = 'esri-icon-basemap esri-widget--button esri-widget esri-interactive esri-icon-basemap';
+        this.menuClass = 'esri-icon-printer esri-widget--button esri-widget esri-interactive';
     }
     /**
      * Method that will be invoked when the 
@@ -24,14 +24,14 @@ class BasemapWidget extends React.Component {
      */
     openMenu() {
         if (this.state.showMapMenu) {
-            this.basemapGallery.domNode.style.display = 'none';
-            this.container.current.querySelector(".esri-widget--button").classList.replace('esri-icon-right-arrow','esri-icon-basemap');
+            this.print.domNode.style.display = 'none';
+            this.container.current.querySelector(".esri-widget--button").classList.replace('esri-icon-right-arrow','esri-icon-printer');
             // By invoking the setState, we notify the state we want to reach
             // and ensure that the component is rendered again
             this.setState({showMapMenu: false});
         } else {
-            this.basemapGallery.domNode.style.display = 'block';
-            this.container.current.querySelector(".esri-widget--button").classList.replace('esri-icon-basemap','esri-icon-right-arrow');
+            this.print.domNode.style.display = 'block';
+            this.container.current.querySelector(".esri-widget--button").classList.replace('esri-icon-printer','esri-icon-right-arrow');
             // By invoking the setState, we notify the state we want to reach
             // and ensure that the component is rendered again
             this.setState({showMapMenu: true});
@@ -42,10 +42,10 @@ class BasemapWidget extends React.Component {
      */
     componentDidMount() {
         this.props.view.ui.add(this.container.current, "top-right");
-        this.basemapGallery = new BasemapGallery({
+        this.print = new Print({
             view: this.props.view,
-            container: this.container.current.querySelector(".basemap-panel"),
-        })
+            container: this.container.current.querySelector(".print-panel"),
+        });
     }
     /**
      * This method renders the component
@@ -54,19 +54,20 @@ class BasemapWidget extends React.Component {
     render(){
         return(
             <>
-                <div ref={this.container} className="basemap-container">
+                <div ref={this.container} className="print-container">
                     <div
                         className={this.menuClass}
-                        id="map_basemap_button"
+                        id="map_print_button"
                         role="button"
-                        title="Basemap gallery"
+                        title="Print"
                         onClick={this.openMenu.bind(this)}>
                     </div>
-                    <div className="basemap-panel"></div>
+                    <div className="print-panel">
+                    </div>
                 </div>
             </>
         );
     }
 }
 
-export default BasemapWidget;
+export default PrintWidget;
