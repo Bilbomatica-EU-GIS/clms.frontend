@@ -5,6 +5,10 @@ import Zoom from "@arcgis/core/widgets/Zoom";
 import "@arcgis/core/assets/esri/css/main.css";
 import "./ArcgisMap.css";
 import BasemapWidget from './BasemapWidget';
+import MeasurementWidget from './MeasurementWidget';
+import PrintWidget from './PrintWidget';
+import AreaWidget from './AreaWidget';
+import ScaleWidget from './ScaleWidget';
 
 class MapViewer extends React.Component {
     /**
@@ -67,6 +71,26 @@ class MapViewer extends React.Component {
             return <BasemapWidget view={this.view} />
     }
     
+    renderMeasurement() {
+        if (this.view)
+            return <MeasurementWidget view={this.view} />
+    }
+
+    renderPrint() {
+        if (this.view)
+            return <PrintWidget view={this.view} />
+    }
+
+    renderArea() {
+        if (this.view)
+            return <AreaWidget view={this.view}  map={this.map}/>
+    }
+
+    renderScale() {
+        if (this.view)
+            return <ScaleWidget view={this.view} />
+    }
+    
     /**
      * This method renders the map viewer, invoking if necessary the methods
      * to render the other widgets to display
@@ -79,6 +103,10 @@ class MapViewer extends React.Component {
             <div className="map-container">
                 <div ref={this.mapdiv} className="map">
                     {this.renderBasemap()}
+                    {this.renderMeasurement()}
+                    {this.renderPrint()}
+                    {this.renderArea()}
+                    {this.renderScale()}
                 </div>
             </div>
         )

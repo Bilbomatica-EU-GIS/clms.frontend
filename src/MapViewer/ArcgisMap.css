@@ -24,6 +24,7 @@
 .esri-component.esri-zoom.esri-widget {
   margin-bottom: 0;
   box-shadow: none;
+  background: none;
 }
 .esri-widget--button {
   background-color: #a0b128cc;
@@ -47,24 +48,192 @@
   background-color: #cfd893;
   cursor: auto;
 }
+
+/* Basemap */
+.basemap-container {
+  display: flex;
+  box-shadow: none !important;
+}
 .esri-basemap-gallery {
   display: none;
-}
-.esri-view-height-small .esri-ui-corner .esri-component.esri-widget--panel-height-only {
-  max-height: 260px;
+  margin: 0 !important;
 }
 .esri-basemap-gallery__item:first-child {
   margin: 0;
 }
-.basemap-gallery-container {
+.esri-view-height-small .esri-ui-corner .esri-widget--panel-height-only {
+  max-height: 260px;
+}
+.esri-basemap-gallery__item--selected, .esri-basemap-gallery__item.esri-basemap-gallery__item--selected:hover, .esri-basemap-gallery__item.esri-basemap-gallery__item--selected:focus {
+  border-left-color: #7c8921;
+  background-color: #a0b1280f;
+}
+.esri-view-width-greater-than-large .esri-ui-corner .esri-basemap-gallery.esri-component .esri-basemap-gallery__item--selected, .esri-view-width-greater-than-large .esri-ui-corner .esri-basemap-gallery.esri-component .esri-basemap-gallery__item.esri-basemap-gallery__item--selected:hover, .esri-view-width-greater-than-large .esri-ui-corner .esri-basemap-gallery.esri-component .esri-basemap-gallery__item.esri-basemap-gallery__item--selected:focus {
+  border-color: #a0b128;
+}
+
+/* Measure */
+.measurement-container {
   display: flex;
-}
-.esri-basemap-gallery {
-  margin: 0 !important;
-}
-.basemap-gallery-container {
   box-shadow: none !important;
 }
+.esri-measurement {
+  display: block;
+  flex-direction: column;
+  width: 225px;
+}
+.measurement-panel {
+  display: none;
+}
+.measurement-buttons {
+  display: flex;
+  justify-content: space-evenly;
+  background: white;
+}
+.measurement-buttons .esri-widget--button {
+  background-color: white;
+  color: #a0b128;
+  width: 100%;
+  border-bottom: solid 4px transparent !important;
+}
+.measurement-buttons .esri-widget--button.active {
+  border-color: #a0b128 !important;
+}
+.esri-measurement .esri-area-measurement-2d__clear-button, .esri-measurement .esri-distance-measurement-2d__clear-button {
+  color: #a0b128;
+  border-color: #a0b128;
+  -webkit-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+  background-color: white;
+}
+.esri-measurement .esri-area-measurement-2d__clear-button:hover, .esri-measurement .esri-distance-measurement-2d__clear-button:hover {
+  color: white;
+  background-color: #a0b128;
+}
+.esri-measurement p {
+  font-size: 1rem;
+}
+.measurement-coords {
+  display: none;
+  background-color: white;
+  padding: 1rem;
+  max-width: 225px;
+}
+
+/* Print */
+.print-container {
+  display: flex;
+  box-shadow: none !important;
+}
+.esri-print {
+  display: none;
+  max-height: 260px;
+}
+.esri-print .esri-button {
+  color: #a0b128;
+  border-color: #a0b128;
+  transition: all 0.3s ease-out;
+  background-color: white;
+}
+.esri-print .esri-button:hover {
+  color: white;
+  background-color: #a0b128;
+}
+
+/* Area */
+.area-container {
+  display: flex;
+  box-shadow: none !important;
+}
+.area-panel {
+  display: none;
+  background-color: white;
+  padding: 1rem;
+  width: 260px;
+  font-size: 1rem;
+}
+.area-panel .ccl-form-group:not(:first-of-type) {
+  margin-top: 0.5rem;
+}
+.area-panel fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Radio */
+*, *::before, *::after {
+  -webkit-box-sizing: inherit;
+  box-sizing: inherit;
+}
+.ccl-form .ccl-form-check-input {
+  display: none;
+  position: absolute;
+  margin-top: .3rem;
+  margin-left: -1.25rem;
+}
+.ccl-form .ccl-form-check-input + .ccl-form-radio-label {
+  position: relative;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+}
+.ccl-form .ccl-form-check-input + .ccl-form-radio-label {
+  padding-left: 1.75rem;
+}
+.ccl-form .ccl-form-check-input + .ccl-form-radio-label::after {
+  content: ' ';
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0.1666666667rem;
+  background: 0 0;
+  width: 1rem;
+  height: 1rem;
+  border: 1px solid #404040;
+  border-radius: 2px;
+  background-color: white;
+  border-radius: 10px;
+}
+.ccl-form-check-input:checked + .ccl-form-radio-label::after {
+  border: solid 1px #a0b128;
+}
+.ccl-form .ccl-form-check-input:checked + .ccl-form-radio-label:before {
+  position: absolute;
+  bottom: 0;
+  display: inline-block;
+  left: 0;
+  transform: none;
+  right: 0;
+  border-radius: 10px;
+  width: 0.5rem;
+  height: 0.5rem;
+  border: none;
+  background-color: #a0b128;
+  margin: 0.25rem;
+  content: '';
+  z-index: 1;
+  top: 0.1666666667rem;
+}
+.ccl-form .ccl-form-check-input[disabled] + .ccl-form-radio-label::after, .ccl-form .form-check-input[disabled] + label::after {
+  background-color: #eee;
+  border: 1px solid #dadada;
+  cursor: auto;
+}
+.ccl-form .ccl-form-check-input[disabled] + .ccl-form-radio-label {
+  color: #adb0b8;
+  cursor: auto;
+}
+.ccl-form-radio-label div {
+  font-size: 0.95rem;
+  margin-left: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+
+/* Left menu */
 .map-menu {
   display: none;
   max-width: min-content;
