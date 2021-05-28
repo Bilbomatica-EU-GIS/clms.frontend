@@ -32,15 +32,13 @@ class AreaWidget extends React.Component {
             // By invoking the setState, we notify the state we want to reach
             // and ensure that the component is rendered again
             this.setState({showMapMenu: false});
-            this.nutsGroupLayer.removeAll();
-            this.props.view.graphics.removeAll();
+            this.clearWidget();
         } else {
             this.container.current.querySelector(".area-panel").style.display = 'block';
             this.container.current.querySelector(".esri-widget--button").classList.replace('esri-icon-cursor-marquee','esri-icon-right-arrow');
             // By invoking the setState, we notify the state we want to reach
             // and ensure that the component is rendered again
             this.setState({showMapMenu: true});
-            //this.loadNutsService(this.container.current.querySelector("input:checked").value, 0)
             this.container.current.querySelector("input:checked").click()
         }
     };
@@ -54,9 +52,7 @@ class AreaWidget extends React.Component {
         this.loadNutsService(e.target.value, 3)
     }
     loadNutsService(id, level) {
-        this.state.ShowGraphics && this.state.ShowGraphics.remove();
-        this.nutsGroupLayer.removeAll();
-        this.props.view.graphics.removeAll();
+        this.clearWidget();
         var url = "https://bm-eugis.tk/arcgis/services/CLMS/NUTS_2021/MapServer/WmsServer?"
         var layer = new WMSLayer({
           url: url,
@@ -78,8 +74,7 @@ class AreaWidget extends React.Component {
         this.nutsGroupLayer.add(layer);
     }
     rectanglehandler() {
-        this.nutsGroupLayer.removeAll();
-        this.props.view.graphics.removeAll();
+        this.clearWidget();
         var fillSymbol = {
             type: "simple-fill",
             color: [255,255,255,0.5],
@@ -114,15 +109,19 @@ class AreaWidget extends React.Component {
         });
         this.setState({ShowGraphics:drawGraphics});
     }
+    clearWidget () {
+        if (this.state.ShowGraphics) {
+            this.state.ShowGraphics.remove();
+            this.setState({ShowGraphics:null});
+        }
+        this.nutsGroupLayer.removeAll();
+        this.props.view.graphics.removeAll();
+    }
     /**
      * This method is executed after the rener method is executed
      */
     componentDidMount() {
         this.props.view.ui.add(this.container.current, "top-right");
-        // this.print = new Print({
-        //     view: this.props.view,
-        //     container: this.container.current.querySelector(".print-panel"),
-        // });
         this.nutsGroupLayer = new GroupLayer({
             title: "nuts",
             opacity: 0.5

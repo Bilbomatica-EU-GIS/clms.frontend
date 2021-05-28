@@ -11,6 +11,7 @@ import AreaWidget from './AreaWidget';
 import ScaleWidget from './ScaleWidget';
 import LegendWidget from './LegendWidget';
 
+
 class MapViewer extends React.Component {
     /**
      * This method does the creation of the main component 

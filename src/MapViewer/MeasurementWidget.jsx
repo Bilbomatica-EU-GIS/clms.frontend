@@ -89,7 +89,10 @@ class MeasurementWidget extends React.Component {
     clearCoordinates() {
         this.container.current.querySelector(".measurement-coords").style.display = 'none';
         this.setState({latlong: false});
-        this.state.ShowCoords && this.state.ShowCoords.remove();
+        if (this.state.ShowCoords) {
+            this.state.ShowCoords.remove();
+            this.setState({ShowCoords:null});
+        }
     }
     /**
      * This method is executed after the rener method is executed
