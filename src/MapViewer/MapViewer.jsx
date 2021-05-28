@@ -10,6 +10,7 @@ import PrintWidget from './PrintWidget';
 import AreaWidget from './AreaWidget';
 import ScaleWidget from './ScaleWidget';
 import LegendWidget from './LegendWidget';
+import MenuWidget from './MenuWidget';
 
 
 class MapViewer extends React.Component {
@@ -98,6 +99,11 @@ class MapViewer extends React.Component {
             return <ScaleWidget view={this.view} />
     }
 
+    renderMenu() {
+        if (this.view)
+            return <MenuWidget view={this.view} />
+    }
+
 
    
     
@@ -118,6 +124,7 @@ class MapViewer extends React.Component {
                     {this.renderPrint()}
                     {this.renderArea()}
                     {this.renderScale()}
+                    {this.renderMenu()}
                     
                 </div>
             </div>
