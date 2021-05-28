@@ -9,6 +9,7 @@ import MeasurementWidget from './MeasurementWidget';
 import PrintWidget from './PrintWidget';
 import AreaWidget from './AreaWidget';
 import ScaleWidget from './ScaleWidget';
+import LegendWidget from './LegendWidget';
 
 class MapViewer extends React.Component {
     /**
@@ -70,6 +71,11 @@ class MapViewer extends React.Component {
         if (this.view)
             return <BasemapWidget view={this.view} />
     }
+
+    renderLegend(){
+        if(this.view)
+            return <LegendWidget view={this.view} />
+    }
     
     renderMeasurement() {
         if (this.view)
@@ -90,6 +96,9 @@ class MapViewer extends React.Component {
         if (this.view)
             return <ScaleWidget view={this.view} />
     }
+
+
+   
     
     /**
      * This method renders the map viewer, invoking if necessary the methods
@@ -103,10 +112,12 @@ class MapViewer extends React.Component {
             <div className="map-container">
                 <div ref={this.mapdiv} className="map">
                     {this.renderBasemap()}
+                    {this.renderLegend()}
                     {this.renderMeasurement()}
                     {this.renderPrint()}
                     {this.renderArea()}
                     {this.renderScale()}
+                    
                 </div>
             </div>
         )

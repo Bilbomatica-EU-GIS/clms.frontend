@@ -476,3 +476,12 @@
 .map-download-block .ccl-form-group:not(:first-of-type) {
   margin-top: 0.5rem;
 }
+
+/* Legend*/
+.legend-panel{
+    display: none;
+}
+
+.legend-container{
+    display: flex
+}
