@@ -24,16 +24,12 @@ class MenuWidget extends React.Component {
     openMenu() {
         if (this.state.showMapMenu) {
             this.container.current.querySelector(".map-left-menu-container").style.display = 'none';
-            this.container.current.querySelector(".map-menu tab-container").style.display = 'none';
-            this.container.current.querySelector(".tab tab-selected").style.display = 'none';
             this.container.current.querySelector(".esri-widget--button").classList.replace('esri-icon-left-arrow', 'esri-icon-drag-horizontal');
             // By invoking the setState, we notify the state we want to reach
             // and ensure that the component is rendered again
             this.setState({ showMapMenu: false });
         } else {
             this.container.current.querySelector(".map-left-menu-container").style.display = 'block';
-            this.container.current.querySelector(".map-menu tab-container").style.display = 'block';
-            this.container.current.querySelector(".tab tab-selected").style.display = 'block';
             this.container.current.querySelector(".esri-widget--button").classList.replace('esri-icon-drag-horizontal', 'esri-icon-right-arrow');
             // By invoking the setState, we notify the state we want to reach
             // and ensure that the component is rendered again
@@ -67,36 +63,7 @@ class MenuWidget extends React.Component {
                             <span className="tab" id="active_label" role="tab" aria-controls="active_panel" aria-selected="false">Active on map</span>
                         </div>
                     </div>
-                    <div className="panels" onClick={this.openMenu.bind(this)}>
-                        <div className="panel panel-selected" id="products_panel" role="tabpanel" aria-hidden="false"></div>
-                        <div className="panel" id="active_panel" role="tabpanel" aria-hidden="true">
-                            <div className="map-active-layers"></div>
-                            <div className="map-download-datasets">
-                                <div className="map-login-block">
-                                    <div className="login-content">
-                                        <button className="ccl-button ccl-button--default login-block-button">Login to download the data</button>
-                                        <p className="login-block-new">New user? <a href="../register.html">Follow this link to register</a></p>
-                                    </div>
-                                </div>
-                                <div className="map-area-block" onClick={this.openMenu.bind(this)}>
-                                    <button className="ccl-button ccl-button-green">Add to cart</button>
-                                    <div className="message-block">
-                                        <div className="message-icon">
-                                            <i className="far fa-comment-alt"></i>
-                                        </div>
-                                        <div className="message-text">
-                                            <p>This is a warning related to the funcionality of start downloading the datasets</p>
-                                            <ul>
-                                                <li>May be can include a link to somewhere</li>
-                                                <li>Or an informative text</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>      
+                </div>    
             </>
             );
     }
