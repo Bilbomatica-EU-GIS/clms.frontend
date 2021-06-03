@@ -12,7 +12,7 @@ menu_container.innerHTML =
     '<div class="panels">'+
       '<div class="panel panel-selected" id="products_panel" role="tabpanel" aria-hidden="false"></div>'+
       '<div class="panel" id="active_panel" role="tabpanel" aria-hidden="true">'+
-        '<div class="map-active-layers"></div>'+
+        '<div class="map-active-Product {product.ProductTitle}s"></div>'+
         '<div class="map-download-datasets">'+
           '<div class="map-login-block">'+
             '<div class="login-content">'+

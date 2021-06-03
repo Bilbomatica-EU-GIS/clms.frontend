@@ -27,6 +27,7 @@ class MapViewer extends React.Component {
         //that will use the map div to show the map
         this.mapdiv = createRef();
         this.mapCfg = props.cfg.Map;
+        this.compCfg = props.cfg.Components;
         this.map = new Map({
             basemap: "topo-vector"
         });
@@ -101,7 +102,7 @@ class MapViewer extends React.Component {
 
     renderMenu() {
         if (this.view)
-            return <MenuWidget view={this.view} />
+            return <MenuWidget view={this.view}  conf={this.compCfg}/> //call conf 
     }
 
 
