@@ -1,5 +1,6 @@
 import React, { useState, createRef } from "react";
 import "@arcgis/core/assets/esri/css/main.css";
+import "./lib/font-awesome/css/all.min.css";
 import "./ArcgisMap.css";
 
 class MenuWidget extends React.Component {
@@ -68,6 +69,18 @@ class MenuWidget extends React.Component {
         return components;
     }
 
+
+
+    // Code working
+    //     <div className="map-menu-dropdown" id={"component_" + compIndex} key={"a" + compIndex}>
+    //     <div className="ccl-expandable__button" aria-expanded="false" key={"b" + compIndex}>
+    //         {component.ComponentTitle}</div>
+    //     <div>
+    //         {products}
+    //     </div>
+    // La linea de abajo se quita porque si no no va
+    // </div> className="map-menu-components-container" key={"c" + compIndex}
+
     //call component.Products
     metodProcessComponent(component, compIndex) {
         var products = [];
@@ -83,9 +96,25 @@ class MenuWidget extends React.Component {
             </div>
         );
     }
+    // development_old code
+//     '<div class="map-menu-dropdown" id="component_'+ component_index +'">'+
+//     '<div class="ccl-expandable__button" aria-expanded="false">'+ component.ComponentTitle +'</div>'+
+//     '<div class="map-menu-components-container">'+
+//     '</div>'+
+//   '</div>'
+
+// PRODUCTS 
+
+    // this Code works
+    //<div key={prodIndex}>
+    //Product Title : {product.ProductTitle}
+    //{datasets}
+    //</div>
+
+    // Code erased (div class not working)
+    // className="ccl-form map-menu-products-container"
 
     metodProcessProduct(product, prodIndex) {
-        //console.log(product)
         //datasets es pq luego proceso datasets
         var datasets = [];
         var index = 0;
@@ -93,17 +122,46 @@ class MenuWidget extends React.Component {
         for (var i in product.Datasets) {
             datasets.push(this.metodProcessDataset(product.Datasets[i], index));
             index++;
-            // console.log(i)
-            // console.log(product)
         }
         return (
-            <div key={prodIndex}>
-                Product Title : {product.ProductTitle}
-                {datasets}
+            <div className="map-menu-product-dropdown" id={"product_" + prodIndex} key={"a" + prodIndex}>
+                <fieldset className="ccl-fieldset" key={"b" + prodIndex}>
+                    <div className="ccl-expandable__button" aria-expanded="false" key={"c" + prodIndex}>
+                        <div className="ccl-form map-product-checkbox" key={"d" + prodIndex}>
+                            <div className="ccl-form-group" key={"e" + prodIndex}>
+                                <input type="checkbox" id={"map_product_" + prodIndex} name="" value="name" className="ccl-checkbox ccl-required ccl-form-check-input" key={"h" + prodIndex}></input>
+                                <label className="ccl-form-check-label" key={"f" + prodIndex}>
+                                    <legend className="ccl-form-legend">
+                                        {product.ProductTitle}
+                                    </legend>
+                                </label>
+                                <div>
+                                    {datasets}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
             </div>
-            // Product {product.ProductTitle} para q devuelva los productos en los div 
+
         );
     }
+    // Dev_old CODE
+    // Code only with map_product_product (not concatenate of component)
+    // <div class="map-menu-product-dropdown" id="product_'+ component_index +'_'+ product_index +'">'+
+    //             '<fieldset class="ccl-fieldset">'+
+    //               '<div class="ccl-expandable__button" aria-expanded="false">'+
+    //                 '<div class="ccl-form map-product-checkbox">'+
+    //                   '<div class="ccl-form-group">'+
+    //                     '<input type="checkbox" id="map_product_'+ component_index +'_'+ product_index +'" name="" value="" class="ccl-checkbox ccl-required ccl-form-check-input">'+ 
+    //                     '<label class="ccl-form-check-label" for="map_product_'+ component_index +'_'+ product_index +'"><legend class="ccl-form-legend">'+ product.ProductTitle +'</legend></label>'+ 
+    //                   '</div>'+
+    //                 '</div>'+
+    //               '</div>'+
+    //               '<div class="ccl-form map-menu-products-container">'+
+    //               '</div>'+
+    //             '</fieldset>'+
+    //           '</div>'
 
 
     metodProcessDataset(dataset, datIndex) {
@@ -116,17 +174,14 @@ class MenuWidget extends React.Component {
             // console.log(i)
         }
         // Code working
-        //     //  <div key={datIndex}>
+        //  <div key={datIndex}>
         //     Dataset Title : {dataset.DatasetTitle}
         //     {layers}
         // </div>
 
         // This code is not working
-        //</div> <//input type="hidden" className="map-dataset-url" value={dataset.ViewService} key={"a" + datIndex}> </input>//
-        //<input type="checkbox" id={"map_dataset_" + datIndex} name="" value="name" className="ccl-checkbox ccl-required ccl-form-check-input" key={"c" + datIndex}> </input>
-        // <div> className="ccl-form map-menu-layers-container" {layers} quit because failure
-
-
+        //</div> <// input type = "hidden" className = "map-dataset-url" value = {dataset.ViewService} key = {"a" + datIndex} > </input >//
+        // <div> className="ccl-form map-menu-layers-container" (before {layers} quit because failure)
 
         return (
             <div className="ccl-form-group map-menu-dataset" id={"dataset_ " + datIndex} key={"a" + datIndex}>
@@ -150,21 +205,6 @@ class MenuWidget extends React.Component {
 
         );
     }
-
-    // '<div class="ccl-form-group map-menu-dataset" id="dataset_'+ component_index +'_'+ product_index +'_'+ dataset_index +'">'+
-    //               '<div class="map-dataset-checkbox">'+
-    //                   '<input type="hidden" class="map-dataset-url" value='+ dataset.ViewService +'>'+
-    //                   '<input type="checkbox" id="map_dataset_'+ component_index +'_'+ product_index +'_'+ dataset_index +'" name="" value="name" class="ccl-checkbox ccl-required ccl-form-check-input">'+
-    //                   '<label class="ccl-form-check-label" for="map_dataset_'+ component_index +'_'+ product_index +'_'+ dataset_index +'">'+
-    //                     '<span>'+ dataset.DatasetTitle +'</span>'+
-    //                   '</label>'+
-    //                 '<div class="map-menu-icons">'+
-    //                   '<a href="./dataset-catalogue/dataset-info.html" class="map-menu-icon" aria-label="Dataset info"><i class="fas fa-info-circle"></i></a><a href="./dataset-catalogue/dataset-download.html" class="map-menu-icon" aria-label="Dataset download"><i class="fas fa-download"></i></a>'+
-    //                 '</div>'+
-    //               '</div>'+
-    //               '<div class="ccl-form map-menu-layers-container">'+
-    //               '</div>'+
-    //             '</div>'
 
     metodProcessLayer(layer, layerIndex) {
         console.log(layer.Title);
