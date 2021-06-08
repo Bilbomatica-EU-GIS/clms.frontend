@@ -37,7 +37,7 @@ class MenuWidget extends React.Component {
         } else {
             this.container.current.querySelector("#tabcontainer").style.display = 'block';
             this.container.current.querySelector('#paneles').style.display = 'block';
-            this.container.current.querySelector(".esri-widget--button").classList.replace('esri-icon-drag-horizontal', 'esri-icon-right-arrow');
+            this.container.current.querySelector(".esri-widget--button").classList.replace('esri-icon-drag-horizontal', 'esri-icon-left-arrow');
 
 
             // By invoking the setState, we notify the state we want to reach
@@ -77,19 +77,20 @@ class MenuWidget extends React.Component {
     metodProcessComponent(component, compIndex) {
         var products = [];
         var index = 0;
+        var inheritedIndex = compIndex;
         for (var i in component.Products) {
-            products.push(this.metodProcessProduct(component.Products[i], index));
+            products.push(this.metodProcessProduct(component.Products[i], index, inheritedIndex));
             index++;
         }
         return (
-            <div className="map-menu-dropdown" id={"component_" + compIndex} key={"a" + compIndex}>
-                <div key={"b" + compIndex}>
-                    {component.ComponentTitle}</div>
-                <div>
+            <div className="map-menu-dropdown" id={"component_" + inheritedIndex} key={"a" + compIndex}>
+                <div className="ccl-expandable__button" aria-expanded="false" key={"b" + compIndex} onClick={this.toggleDropdownContent.bind(this)}>
+                    {component.ComponentTitle}
+                </div>
+                <div className="map-menu-components-container">
                     {products}
                 </div>
             </div>
-
         );
     }
 
@@ -98,42 +99,43 @@ class MenuWidget extends React.Component {
     // Code erased (div class not working)
     // className="ccl-form map-menu-products-container"
 
-    metodProcessProduct(product, prodIndex) {
+    metodProcessProduct(product, prodIndex, inheritedIndex) {
         var datasets = [];
         var index = 0;
+        var inheritedIndex = inheritedIndex + "_" + prodIndex;
         for (var i in product.Datasets) {
-            datasets.push(this.metodProcessDataset(product.Datasets[i], index));
+            datasets.push(this.metodProcessDataset(product.Datasets[i], index, inheritedIndex));
             index++;
         }
         return (
-            <div id={"product_" + prodIndex} key={"a" + prodIndex}>
-                <fieldset key={"b" + prodIndex}>
-                    <div key={"c" + prodIndex}>
-                        <div key={"d" + prodIndex}>
+            <div className="map-menu-product-dropdown" id={"product_" + inheritedIndex} key={"a" + prodIndex}>
+                <fieldset className="ccl-fieldset" key={"b" + prodIndex}>
+                    <div className="ccl-expandable__button" aria-expanded="false" key={"c" + prodIndex} onClick={this.toggleDropdownContent.bind(this)}>
+                        <div className="ccl-form map-product-checkbox" key={"d" + prodIndex}>
                             <div className="ccl-form-group" key={"e" + prodIndex}>
-                                <input type="checkbox" id={"map_product_" + prodIndex} name="" value="name" className="ccl-checkbox ccl-required ccl-form-check-input" key={"h" + prodIndex}></input>
-                                <label className="ccl-form-check-label" key={"f" + prodIndex}>
-                                    <span>
+                                <input type="checkbox" id={"map_product_" + inheritedIndex} name="" value="name" className="ccl-checkbox ccl-required ccl-form-check-input" key={"h" + prodIndex}></input>
+                                <label className="ccl-form-check-label" htmlFor={"map_product_" + inheritedIndex} key={"f" + prodIndex}>
+                                    <legend className="ccl-form-legend">
                                         {product.ProductTitle}
-                                    </span>
+                                    </legend>
                                 </label>
-                                <div>
-                                    {datasets}
-                                </div>
                             </div>
                         </div>
                     </div>
+                    <div className="ccl-form map-menu-products-container">
+                        {datasets}
+                    </div>
                 </fieldset>
             </div>
-
         );
     }
 
-    metodProcessDataset(dataset, datIndex) {
+    metodProcessDataset(dataset, datIndex, inheritedIndex) {
         var layers = [];
         var index = 0;
+        var inheritedIndex = inheritedIndex + "_" + datIndex;
         for (var i in dataset.Layer) {
-            layers.push(this.metodProcessLayer(dataset.Layer[i], index));
+            layers.push(this.metodProcessLayer(dataset.Layer[i], index, inheritedIndex));
             index++;
 
         }
@@ -143,10 +145,10 @@ class MenuWidget extends React.Component {
         // <div> className="ccl-form map-menu-layers-container" (before {layers} quit because failure)
 
         return (
-            <div className="ccl-form-group map-menu-dataset" id={"dataset_ " + datIndex} key={"a" + datIndex}>
+            <div className="ccl-form-group map-menu-dataset" id={"dataset_ " + inheritedIndex} key={"a" + datIndex}>
                 <div className="map-dataset-checkbox" key={"b" + datIndex}>
-                    <input type="checkbox" id={"map_dataset_" + datIndex} name="" value="name" className="ccl-checkbox ccl-required ccl-form-check-input" key={"c" + datIndex}></input>
-                    <label className="ccl-form-check-label" key={"d" + datIndex} >
+                    <input type="checkbox" id={"map_dataset_" + inheritedIndex} name="" value="name" className="ccl-checkbox ccl-required ccl-form-check-input" key={"c" + datIndex}></input>
+                    <label className="ccl-form-check-label" htmlFor={"map_dataset_" + inheritedIndex} key={"d" + datIndex} >
                         <span>{dataset.DatasetTitle}</span>
                     </label>
                     <div className="map-menu-icons">
@@ -156,27 +158,32 @@ class MenuWidget extends React.Component {
                             <i className="fas fa-download"></i>
                         </a>
                     </div>
-                    <div>
-                        {layers}
-                    </div>
+                </div>
+                <div className="ccl-form map-menu-layers-container">
+                    {layers}
                 </div>
             </div>
-
         );
     }
 
-    metodProcessLayer(layer, layerIndex) {
+    metodProcessLayer(layer, layerIndex, inheritedIndex) {
         //  Linea de abajo para revisar
         //<input type="hidden" className="map-layer-name" value={layer.LayerId} key={"b" + layerIndex} > </input>
+        var inheritedIndex = inheritedIndex + "_" + layerIndex;
         return (
-            <div className="ccl-form-group map-menu-layer" id={"layer_" + layerIndex} key={"a" + layerIndex}>
-                <input type="checkbox" id={"layer_" + layerIndex} name="" value="name" className="ccl-checkbox ccl-required ccl-form-check-input" key={"c" + layerIndex}></input>
-                <label className="ccl-form-check-label" key={"d" + layerIndex} >
+            <div className="ccl-form-group map-menu-layer" id={"layer_" + inheritedIndex} key={"a" + layerIndex}>
+                <input type="checkbox" id={"map_layer_" + inheritedIndex} name="" value="name" className="ccl-checkbox ccl-required ccl-form-check-input" key={"c" + layerIndex}></input>
+                <label className="ccl-form-check-label" htmlFor={"map_layer_" + inheritedIndex} key={"d" + layerIndex} >
                     <span>{layer.Title}</span>
                 </label>
             </div>
         )
     };
+
+    toggleDropdownContent(e) {
+        var aria = e.target.getAttribute('aria-expanded');
+        e.target.setAttribute("aria-expanded", aria == 'true' ? 'false' : 'true');
+    }
 
     /**
      * This method renders the component
@@ -186,13 +193,6 @@ class MenuWidget extends React.Component {
         return (
             <>
                 <div ref={this.container} className="map-left-menu-container">
-                    <div
-                        className={this.menuClass}
-                        id="map-left-menu-container"
-                        role="button"
-                        title="Menu of Products"
-                        onClick={this.openMenu.bind(this)}>
-                    </div>
                     <div className="map-menu tab-container" id='tabcontainer'>
                         <div className="tabs" role="tablist" onClick={this.openMenu.bind(this)}>
                             <span className="tab tab-selected" id="products_label" role="tab" aria-controls="products_panel" aria-selected="true">Products and datasets</span>
@@ -206,6 +206,13 @@ class MenuWidget extends React.Component {
                             </div>
                             <div className="panel" id="active_panel" role="tabpanel" aria-hidden="true"></div>
                         </div>
+                    </div>
+                    <div
+                        className={this.menuClass}
+                        id="map_manu_button"
+                        role="button"
+                        title="Menu of products"
+                        onClick={this.openMenu.bind(this)}>
                     </div>
                 </div>
             </>
