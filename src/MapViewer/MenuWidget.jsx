@@ -17,7 +17,6 @@ class MenuWidget extends React.Component {
         this.state = { showMapMenu: false };
         // call the props of the layers list (mapviewer.jsx)
         this.compCfg = this.props.conf;
-        //console.log(this.compCfg)
         this.menuClass = 'esri-icon-drag-horizontal esri-widget--button esri-widget esri-interactive';
     }
     /**
@@ -27,7 +26,6 @@ class MenuWidget extends React.Component {
      */
     openMenu() {
         if (this.state.showMapMenu) {
-            //this.container.current.querySelector(".tab-container").style.display = 'none';
             this.container.current.querySelector('#tabcontainer').style.display = 'none';
             this.container.current.querySelector('#paneles').style.display = 'none';
             this.container.current.querySelector(".esri-widget--button").classList.replace('esri-icon-left-arrow', 'esri-icon-drag-horizontal');
@@ -71,17 +69,11 @@ class MenuWidget extends React.Component {
 
 
 
-    // Code working
-    //     <div className="map-menu-dropdown" id={"component_" + compIndex} key={"a" + compIndex}>
-    //     <div className="ccl-expandable__button" aria-expanded="false" key={"b" + compIndex}>
-    //         {component.ComponentTitle}</div>
-    //     <div>
-    //         {products}
-    //     </div>
+   
     // La linea de abajo se quita porque si no no va
     // </div> className="map-menu-components-container" key={"c" + compIndex}
+    // Al quitar este, se ve un recuadro y todas ok <div className="ccl-expandable__button" aria-expanded="false" key={"b" + compIndex}></div>
 
-    //call component.Products
     metodProcessComponent(component, compIndex) {
         var products = [];
         var index = 0;
@@ -90,50 +82,40 @@ class MenuWidget extends React.Component {
             index++;
         }
         return (
-            <div key={compIndex}>
-                {component.ComponentTitle}
-                {products}
+            <div className="map-menu-dropdown" id={"component_" + compIndex} key={"a" + compIndex}>
+                <div key={"b" + compIndex}>
+                    {component.ComponentTitle}</div>
+                <div>
+                    {products}
+                </div>
             </div>
+
         );
     }
-    // development_old code
-//     '<div class="map-menu-dropdown" id="component_'+ component_index +'">'+
-//     '<div class="ccl-expandable__button" aria-expanded="false">'+ component.ComponentTitle +'</div>'+
-//     '<div class="map-menu-components-container">'+
-//     '</div>'+
-//   '</div>'
 
-// PRODUCTS 
 
-    // this Code works
-    //<div key={prodIndex}>
-    //Product Title : {product.ProductTitle}
-    //{datasets}
-    //</div>
-
+    // PRODUCTS
     // Code erased (div class not working)
     // className="ccl-form map-menu-products-container"
 
     metodProcessProduct(product, prodIndex) {
-        //datasets es pq luego proceso datasets
         var datasets = [];
         var index = 0;
-        //metodProcessDataset = iterar sobre productos para sacar datasets y rellenar en var=datasets
         for (var i in product.Datasets) {
             datasets.push(this.metodProcessDataset(product.Datasets[i], index));
             index++;
         }
         return (
-            <div className="map-menu-product-dropdown" id={"product_" + prodIndex} key={"a" + prodIndex}>
-                <fieldset className="ccl-fieldset" key={"b" + prodIndex}>
-                    <div className="ccl-expandable__button" aria-expanded="false" key={"c" + prodIndex}>
-                        <div className="ccl-form map-product-checkbox" key={"d" + prodIndex}>
+            <div id={"product_" + prodIndex} key={"a" + prodIndex}>
+                <fieldset key={"b" + prodIndex}>
+                    <div key={"c" + prodIndex}>
+                        <div key={"d" + prodIndex}>
                             <div className="ccl-form-group" key={"e" + prodIndex}>
                                 <input type="checkbox" id={"map_product_" + prodIndex} name="" value="name" className="ccl-checkbox ccl-required ccl-form-check-input" key={"h" + prodIndex}></input>
                                 <label className="ccl-form-check-label" key={"f" + prodIndex}>
-                                    <legend className="ccl-form-legend">
+                                    <span>
                                         {product.ProductTitle}
-                                    </legend>
+                                    </span>
                                 </label>
                                 <div>
                                     {datasets}
@@ -146,41 +128,18 @@ class MenuWidget extends React.Component {
 
         );
     }
-    // Dev_old CODE
-    // Code only with map_product_product (not concatenate of component)
-    // <div class="map-menu-product-dropdown" id="product_'+ component_index +'_'+ product_index +'">'+
-    //             '<fieldset class="ccl-fieldset">'+
-    //               '<div class="ccl-expandable__button" aria-expanded="false">'+
-    //                 '<div class="ccl-form map-product-checkbox">'+
-    //                   '<div class="ccl-form-group">'+
-    //                     '<input type="checkbox" id="map_product_'+ component_index +'_'+ product_index +'" name="" value="" class="ccl-checkbox ccl-required ccl-form-check-input">'+ 
-    //                     '<label class="ccl-form-check-label" for="map_product_'+ component_index +'_'+ product_index +'"><legend class="ccl-form-legend">'+ product.ProductTitle +'</legend></label>'+ 
-    //                   '</div>'+
-    //                 '</div>'+
-    //               '</div>'+
-    //               '<div class="ccl-form map-menu-products-container">'+
-    //               '</div>'+
-    //             '</fieldset>'+
-    //           '</div>'
-
 
     metodProcessDataset(dataset, datIndex) {
         var layers = [];
-        // console.log(dataset)
         var index = 0;
         for (var i in dataset.Layer) {
             layers.push(this.metodProcessLayer(dataset.Layer[i], index));
             index++;
-            // console.log(i)
+
         }
-        // Code working
-        //  <div key={datIndex}>
-        //     Dataset Title : {dataset.DatasetTitle}
-        //     {layers}
-        // </div>
 
         // This code is not working
-        //</div> <// input type = "hidden" className = "map-dataset-url" value = {dataset.ViewService} key = {"a" + datIndex} > </input >//
+        //</div> <// input type = "hidden" className = "map-dataset-url" value = { dataset.ViewService } key = { "a" + datIndex } > </input >//
         // <div> className="ccl-form map-menu-layers-container" (before {layers} quit because failure)
 
         return (
@@ -207,10 +166,6 @@ class MenuWidget extends React.Component {
     }
 
     metodProcessLayer(layer, layerIndex) {
-        console.log(layer.Title);
-        // Code working
-        //return <div key={layerIndex}> Layer Title: {layer.Title} </div>;
-
         //  Linea de abajo para revisar
         //<input type="hidden" className="map-layer-name" value={layer.LayerId} key={"b" + layerIndex} > </input>
         return (
