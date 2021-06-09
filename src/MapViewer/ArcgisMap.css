@@ -1,3 +1,4 @@
+/* Included in general styles */
 html * {
   padding: 0;
   margin: 0;
@@ -7,6 +8,13 @@ html * {
 *, *::before, *::after {
   -webkit-box-sizing: inherit;
   box-sizing: inherit;
+}
+.info-icon {
+  color: #a0b128;
+  margin-left: 0.5rem;
+}
+.info-icon i {
+  cursor: pointer;
 }
 /* Map viewer */
 .map-container {

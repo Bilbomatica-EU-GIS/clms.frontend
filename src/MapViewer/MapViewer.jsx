@@ -1,4 +1,6 @@
 import React, { useRef, useEffect, useState, useCallback, createRef } from "react";
+//import intl from "@arcgis/intl";
+import {getLocale, setLocale} from "@arcgis/core/intl";
 import Map from "@arcgis/core/Map";
 import MapView from "@arcgis/core/views/MapView";
 import Zoom from "@arcgis/core/widgets/Zoom";
@@ -12,7 +14,6 @@ import ScaleWidget from './ScaleWidget';
 import LegendWidget from './LegendWidget';
 import MenuWidget from './MenuWidget';
 
-
 class MapViewer extends React.Component {
     /**
      * This method does the creation of the main component 
@@ -25,11 +26,12 @@ class MapViewer extends React.Component {
         //create here to reference the DOM element from javascript
         //code, for example, to create later a MapView component 
         //that will use the map div to show the map
+        setLocale("en");
         this.mapdiv = createRef();
         this.mapCfg = props.cfg.Map;
         this.compCfg = props.cfg.Components;
         this.map = new Map({
-            basemap: "topo-vector"
+            basemap: "topo"
         });
     }
     
@@ -41,15 +43,16 @@ class MapViewer extends React.Component {
     componentDidMount() {
         // this.mapdiv.current is the reference to the current DOM element of 
         // this.mapdiv after it was mounted by the render() method
+        setLocale("en-GB");
         this.view = new MapView({
-                                    container: this.mapdiv.current,
-                                    map: this.map,
-                                    center: this.mapCfg.center,
-                                    zoom: this.mapCfg.zoom,
-                                    ui: {
-                                        components: ["attribution"] 
-                                    }
-                                });
+            container: this.mapdiv.current,
+            map: this.map,
+            center: this.mapCfg.center,
+            zoom: this.mapCfg.zoom,
+            ui: {
+                components: ["attribution"]
+            }
+        });
         this.zoom = new Zoom({
             view: this.view
         });

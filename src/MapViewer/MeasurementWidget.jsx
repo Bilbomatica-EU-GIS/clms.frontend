@@ -44,6 +44,7 @@ class MeasurementWidget extends React.Component {
     };
 
     areaMeasurementHandler(e) {
+        this.clearMeasurements();
         this.clearCoordinates();
         this.areaMeasurement();
         this.container.current.querySelector('.active').classList.remove("active");
@@ -51,6 +52,7 @@ class MeasurementWidget extends React.Component {
     }
 
     distanceMeasurementHandler(e) {
+        this.clearMeasurements();
         this.clearCoordinates();
         this.distanceMeasurement();
         this.container.current.querySelector('.active').classList.remove("active");

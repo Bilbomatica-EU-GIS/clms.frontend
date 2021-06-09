@@ -16,6 +16,7 @@ class BasemapWidget extends React.Component {
         //not be showing the basemap panel
         this.state = {showMapMenu: false};
         this.menuClass = 'esri-icon-basemap esri-widget--button esri-widget esri-interactive esri-icon-basemap';
+        this.loadFirst = true;
     }
     /**
      * Method that will be invoked when the 
@@ -23,6 +24,11 @@ class BasemapWidget extends React.Component {
      * and close actions of the component
      */
     openMenu() {
+        if (this.loadFirst){
+            document.querySelectorAll(".esri-basemap-gallery__item")[3].setAttribute("aria-selected",true);
+            document.querySelectorAll(".esri-basemap-gallery__item")[3].classList.add("esri-basemap-gallery__item--selected");
+            this.loadFirst = false;
+        }
         if (this.state.showMapMenu) {
             this.basemapGallery.domNode.style.display = 'none';
             this.container.current.querySelector(".esri-widget--button").classList.replace('esri-icon-right-arrow','esri-icon-basemap');
@@ -45,6 +51,7 @@ class BasemapWidget extends React.Component {
         this.basemapGallery = new BasemapGallery({
             view: this.props.view,
             container: this.container.current.querySelector(".basemap-panel"),
+            //activeBasemap: "topo"
         })
     }
     /**
