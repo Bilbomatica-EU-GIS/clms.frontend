@@ -105,7 +105,7 @@ class MapViewer extends React.Component {
 
     renderMenu() {
         if (this.view)
-            return <MenuWidget view={this.view}  conf={this.compCfg}/> //call conf 
+            return <MenuWidget view={this.view}  conf={this.compCfg} map={this.map}/> //call conf 
     }
 
 

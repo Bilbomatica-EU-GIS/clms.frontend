@@ -1,5 +1,6 @@
 import React, { useState, createRef } from "react";
 import "@arcgis/core/assets/esri/css/main.css";
+import WMSLayer from "@arcgis/core/layers/WMSLayer";
 import "./lib/font-awesome/css/all.min.css";
 import "./ArcgisMap.css";
 
@@ -17,7 +18,9 @@ class MenuWidget extends React.Component {
         this.state = { showMapMenu: false };
         // call the props of the layers list (mapviewer.jsx)
         this.compCfg = this.props.conf;
+        this.map = this.props.map;
         this.menuClass = 'esri-icon-drag-horizontal esri-widget--button esri-widget esri-interactive';
+        this.layers = {};
     }
     /**
      * Method that will be invoked when the 
@@ -68,12 +71,6 @@ class MenuWidget extends React.Component {
     }
 
 
-
-   
-    // La linea de abajo se quita porque si no no va
-    // </div> className="map-menu-components-container" key={"c" + compIndex}
-    // Al quitar este, se ve un recuadro y todas ok <div className="ccl-expandable__button" aria-expanded="false" key={"b" + compIndex}></div>
-
     metodProcessComponent(component, compIndex) {
         var products = [];
         var index = 0;
@@ -95,10 +92,6 @@ class MenuWidget extends React.Component {
     }
 
 
-    // PRODUCTS
-    // Code erased (div class not working)
-    // className="ccl-form map-menu-products-container"
-
     metodProcessProduct(product, prodIndex, inheritedIndex) {
         var datasets = [];
         var index = 0;
@@ -106,7 +99,9 @@ class MenuWidget extends React.Component {
         for (var i in product.Datasets) {
             datasets.push(this.metodProcessDataset(product.Datasets[i], index, inheritedIndex));
             index++;
+
         }
+
         return (
             <div className="map-menu-product-dropdown" id={"product_" + inheritedIndex} key={"a" + prodIndex}>
                 <fieldset className="ccl-fieldset" key={"b" + prodIndex}>
@@ -131,23 +126,21 @@ class MenuWidget extends React.Component {
     }
 
     metodProcessDataset(dataset, datIndex, inheritedIndex) {
+        
         var layers = [];
         var index = 0;
         var inheritedIndex = inheritedIndex + "_" + datIndex;
+
         for (var i in dataset.Layer) {
-            layers.push(this.metodProcessLayer(dataset.Layer[i], index, inheritedIndex));
+            layers.push(this.metodProcessLayer(dataset.Layer[i], index, inheritedIndex, dataset.ViewService));
             index++;
-
         }
-
-        // This code is not working
-        //</div> <// input type = "hidden" className = "map-dataset-url" value = { dataset.ViewService } key = { "a" + datIndex } > </input >//
-        // <div> className="ccl-form map-menu-layers-container" (before {layers} quit because failure)
-
+        console.log(layers)
+        // console.log(dataset.ViewService)
         return (
             <div className="ccl-form-group map-menu-dataset" id={"dataset_ " + inheritedIndex} key={"a" + datIndex}>
                 <div className="map-dataset-checkbox" key={"b" + datIndex}>
-                    <input type="checkbox" id={"map_dataset_" + inheritedIndex} name="" value="name" className="ccl-checkbox ccl-required ccl-form-check-input" key={"c" + datIndex}></input>
+                    <input type="checkbox" id={"map_dataset_" + inheritedIndex} name="" value="name" className="ccl-checkbox ccl-required ccl-form-check-input" key={"c" + datIndex} onChange={(e) => { console.log(e); this.toggleDataset("layer_container" + datIndex,e.target.checked) }}></input>
                     <label className="ccl-form-check-label" htmlFor={"map_dataset_" + inheritedIndex} key={"d" + datIndex} >
                         <span>{dataset.DatasetTitle}</span>
                     </label>
@@ -159,26 +152,51 @@ class MenuWidget extends React.Component {
                         </a>
                     </div>
                 </div>
-                <div className="ccl-form map-menu-layers-container">
+                <div className="ccl-form map-menu-layers-container" id={"layer_container" + datIndex}>
                     {layers}
                 </div>
             </div>
         );
     }
 
-    metodProcessLayer(layer, layerIndex, inheritedIndex) {
-        //  Linea de abajo para revisar
-        //<input type="hidden" className="map-layer-name" value={layer.LayerId} key={"b" + layerIndex} > </input>
+    metodProcessLayer(layer, layerIndex, inheritedIndex, urlWMS) {
+        //Por cada layer 
+        // console.log(urlWMS);
+        this.layers[layer.LayerId] = new WMSLayer({
+            url: urlWMS,
+            id: layer.LayerId
+        });
+
         var inheritedIndex = inheritedIndex + "_" + layerIndex;
         return (
             <div className="ccl-form-group map-menu-layer" id={"layer_" + inheritedIndex} key={"a" + layerIndex}>
-                <input type="checkbox" id={"map_layer_" + inheritedIndex} name="" value="name" className="ccl-checkbox ccl-required ccl-form-check-input" key={"c" + layerIndex}></input>
+                <input type="checkbox" id={"map_layer_" + inheritedIndex} name="" value="name" className="ccl-checkbox ccl-required ccl-form-check-input" key={"c" + layerIndex} onChange={(e) => { console.log(e); this.toggleLayer(layer.LayerId, e.target.checked) }}></input>
                 <label className="ccl-form-check-label" htmlFor={"map_layer_" + inheritedIndex} key={"d" + layerIndex} >
                     <span>{layer.Title}</span>
                 </label>
             </div>
         )
     };
+
+    //Crear un metodo para mostrar la layer en el mapa
+    toggleLayer(layerId, val) {
+        if (val) {
+            this.map.add(this.layers[layerId])
+        }
+        else {
+            this.map.remove(this.layers[layerId])
+        }
+    }
+
+
+    toggleDataset(id, vals, layerId) {
+        document.querySelector(id)
+        this.container.current.querySelectorAll("input[type=checkbox]")
+        // Indicar query selector para que coja los hijos del Checkbox de dataset y q cambie valor de los de toggleLayer**
+        // Hijos de className map-dataset-checkbox
+    }
+
+        
 
     toggleDropdownContent(e) {
         var aria = e.target.getAttribute('aria-expanded');
