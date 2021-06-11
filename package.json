@@ -1,6 +1,6 @@
 {
-  "name": "copernicus-react-arcgis-map",
-  "homepage": "https://codesyntax.github.io/copernicus-react-arcgis-map",
+  "name": "CLMS",
+  "homepage": "https://codesyntax.github.io/CLMS",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

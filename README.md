@@ -1,5 +1,5 @@
 # Copernicus React ArcGIS Map
-## DEMO: https://codesyntax.github.io/copernicus-react-arcgis-map/
+## DEMO: https://codesyntax.github.io/CLMS/
 
 # Getting Started with Create React App
 

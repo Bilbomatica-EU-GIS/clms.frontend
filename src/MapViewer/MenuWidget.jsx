@@ -15,7 +15,7 @@ class MenuWidget extends React.Component {
         this.container = createRef();
         //Initially, we set the state of the component to 
         //not be showing the basemap panel
-        this.state = { showMapMenu: false };
+        this.state = { showMapMenu: false};
         // call the props of the layers list (mapviewer.jsx)
         this.compCfg = this.props.conf;
         this.map = this.props.map;
@@ -45,7 +45,7 @@ class MenuWidget extends React.Component {
 
             // By invoking the setState, we notify the state we want to reach
             // and ensure that the component is rendered again
-            this.setState({ showMapMenu: true });
+            this.setState({ showMapMenu: true});
         }
     };
     /**
@@ -108,7 +108,7 @@ class MenuWidget extends React.Component {
                     <div className="ccl-expandable__button" aria-expanded="false" key={"c" + prodIndex} onClick={this.toggleDropdownContent.bind(this)}>
                         <div className="ccl-form map-product-checkbox" key={"d" + prodIndex}>
                             <div className="ccl-form-group" key={"e" + prodIndex}>
-                                <input type="checkbox" id={"map_product_" + inheritedIndex} name="" value="name" className="ccl-checkbox ccl-required ccl-form-check-input" key={"h" + prodIndex}></input>
+                                <input type="checkbox" id={"map_product_" + inheritedIndex} name="" value="name" className="ccl-checkbox ccl-required ccl-form-check-input" key={"h" + prodIndex} onChange={(e)=>this.toggleProduct(e.target.checked,"datasets_container" + prodIndex)}></input>
                                 <label className="ccl-form-check-label" htmlFor={"map_product_" + inheritedIndex} key={"f" + prodIndex}>
                                     <legend className="ccl-form-legend">
                                         {product.ProductTitle}
@@ -117,7 +117,7 @@ class MenuWidget extends React.Component {
                             </div>
                         </div>
                     </div>
-                    <div className="ccl-form map-menu-products-container">
+                    <div className="ccl-form map-menu-products-container" id={"datasets_container" + prodIndex}>
                         {datasets}
                     </div>
                 </fieldset>
@@ -135,12 +135,10 @@ class MenuWidget extends React.Component {
             layers.push(this.metodProcessLayer(dataset.Layer[i], index, inheritedIndex, dataset.ViewService));
             index++;
         }
-        console.log(layers)
-        // console.log(dataset.ViewService)
         return (
             <div className="ccl-form-group map-menu-dataset" id={"dataset_ " + inheritedIndex} key={"a" + datIndex}>
                 <div className="map-dataset-checkbox" key={"b" + datIndex}>
-                    <input type="checkbox" id={"map_dataset_" + inheritedIndex} name="" value="name" className="ccl-checkbox ccl-required ccl-form-check-input" key={"c" + datIndex} onChange={(e) => { console.log(e); this.toggleDataset("layer_container" + datIndex,e.target.checked) }}></input>
+                    <input type="checkbox" id={"map_dataset_" + inheritedIndex} name="" value="name" className="ccl-checkbox ccl-required ccl-form-check-input" key={"c" + datIndex} onChange={(e) => {this.toggleDataset(e.target.checked,"layer_container_" + dataset.DatasetId) }}></input>
                     <label className="ccl-form-check-label" htmlFor={"map_dataset_" + inheritedIndex} key={"d" + datIndex} >
                         <span>{dataset.DatasetTitle}</span>
                     </label>
@@ -152,7 +150,7 @@ class MenuWidget extends React.Component {
                         </a>
                     </div>
                 </div>
-                <div className="ccl-form map-menu-layers-container" id={"layer_container" + datIndex}>
+                <div className="ccl-form map-menu-layers-container" id={"layer_container_" + dataset.DatasetId}>
                     {layers}
                 </div>
             </div>
@@ -161,41 +159,71 @@ class MenuWidget extends React.Component {
 
     metodProcessLayer(layer, layerIndex, inheritedIndex, urlWMS) {
         //Por cada layer 
-        // console.log(urlWMS);
+        var inheritedIndex = inheritedIndex + "_" + layerIndex;
+
         this.layers[layer.LayerId] = new WMSLayer({
             url: urlWMS,
             id: layer.LayerId
         });
 
-        var inheritedIndex = inheritedIndex + "_" + layerIndex;
         return (
             <div className="ccl-form-group map-menu-layer" id={"layer_" + inheritedIndex} key={"a" + layerIndex}>
-                <input type="checkbox" id={"map_layer_" + inheritedIndex} name="" value="name" className="ccl-checkbox ccl-required ccl-form-check-input" key={"c" + layerIndex} onChange={(e) => { console.log(e); this.toggleLayer(layer.LayerId, e.target.checked) }}></input>
-                <label className="ccl-form-check-label" htmlFor={"map_layer_" + inheritedIndex} key={"d" + layerIndex} >
+                <input type="checkbox" id={layer.LayerId} name="" value="name" className="ccl-checkbox ccl-required ccl-form-check-input" key={"c" + layerIndex} onChange={(e) => {this.toggleLayer(e.target) }}></input>
+                <label className="ccl-form-check-label" htmlFor={layer.LayerId} key={"d" + layerIndex} >
                     <span>{layer.Title}</span>
                 </label>
             </div>
         )
     };
 
-    //Crear un metodo para mostrar la layer en el mapa
-    toggleLayer(layerId, val) {
-        if (val) {
-            this.map.add(this.layers[layerId])
+    /**
+     * Method to show/hide a layer
+     * @param {*} elem 
+     */
+    toggleLayer(elem) {
+        if (elem.checked) {
+            this.map.add(this.layers[elem.id])
         }
         else {
-            this.map.remove(this.layers[layerId])
+            this.map.remove(this.layers[elem.id])
         }
     }
 
 
-    toggleDataset(id, vals, layerId) {
-        document.querySelector(id)
-        this.container.current.querySelectorAll("input[type=checkbox]")
-        // Indicar query selector para que coja los hijos del Checkbox de dataset y q cambie valor de los de toggleLayer**
-        // Hijos de className map-dataset-checkbox
+    /**
+     * Method to show/hide all the layers of a dataset
+     * @param {*} value 
+     * @param {*} id 
+     */
+    toggleDataset(value,id) {
+        var layerChecks = document.querySelector("#"+id).querySelectorAll("input[type=checkbox]");
+        layerChecks.forEach(
+            element => {    
+                element.checked = value;
+                this.toggleLayer(element);
+            }
+        )
     }
 
+    /**
+     * Method to show/hide all the datasets of a product
+     * @param {*} value 
+     * @param {*} id 
+     */
+    toggleProduct(value,id){
+        var datasetChecks = document.querySelector("#"+id).querySelectorAll("[id^='map_dataset_']")
+        var layerContainers = document.querySelector("#"+id).querySelectorAll("[id^='layer_container']")
+        datasetChecks.forEach(
+            element => {    
+                element.checked = value;
+            }
+        )
+        layerContainers.forEach(
+            element => {    
+                this.toggleDataset(value,element.id);
+            }
+        )
+    }
         
 
     toggleDropdownContent(e) {
