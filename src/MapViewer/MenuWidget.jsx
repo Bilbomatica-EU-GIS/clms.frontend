@@ -126,7 +126,6 @@ class MenuWidget extends React.Component {
     }
 
     metodProcessDataset(dataset, datIndex, inheritedIndex) {
-        
         var layers = [];
         var index = 0;
         var inheritedIndex = inheritedIndex + "_" + datIndex;
