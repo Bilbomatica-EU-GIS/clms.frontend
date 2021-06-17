@@ -3,6 +3,8 @@ import "@arcgis/core/assets/esri/css/main.css";
 import WMSLayer from "@arcgis/core/layers/WMSLayer";
 import "./lib/font-awesome/css/all.min.css";
 import "./ArcgisMap.css";
+import { faPassport } from "@fortawesome/free-solid-svg-icons";
+import { layer } from "@fortawesome/fontawesome-svg-core";
 
 class MenuWidget extends React.Component {
     /**
@@ -15,12 +17,14 @@ class MenuWidget extends React.Component {
         this.container = createRef();
         //Initially, we set the state of the component to 
         //not be showing the basemap panel
-        this.state = { showMapMenu: false};
+        this.state = { showMapMenu: false };
         // call the props of the layers list (mapviewer.jsx)
         this.compCfg = this.props.conf;
         this.map = this.props.map;
         this.menuClass = 'esri-icon-drag-horizontal esri-widget--button esri-widget esri-interactive';
         this.layers = {};
+        this.activeLayers = []
+
     }
     /**
      * Method that will be invoked when the 
@@ -45,7 +49,7 @@ class MenuWidget extends React.Component {
 
             // By invoking the setState, we notify the state we want to reach
             // and ensure that the component is rendered again
-            this.setState({ showMapMenu: true});
+            this.setState({ showMapMenu: true });
         }
     };
     /**
@@ -108,7 +112,7 @@ class MenuWidget extends React.Component {
                     <div className="ccl-expandable__button" aria-expanded="false" key={"c" + prodIndex} onClick={this.toggleDropdownContent.bind(this)}>
                         <div className="ccl-form map-product-checkbox" key={"d" + prodIndex}>
                             <div className="ccl-form-group" key={"e" + prodIndex}>
-                                <input type="checkbox" id={"map_product_" + inheritedIndex} name="" value="name" className="ccl-checkbox ccl-required ccl-form-check-input" key={"h" + prodIndex} onChange={(e)=>this.toggleProduct(e.target.checked,"datasets_container" + prodIndex)}></input>
+                                <input type="checkbox" id={"map_product_" + inheritedIndex} name="" value="name" className="ccl-checkbox ccl-required ccl-form-check-input" key={"h" + prodIndex} onChange={(e) => this.toggleProduct(e.target.checked, "datasets_container" + prodIndex)}></input>
                                 <label className="ccl-form-check-label" htmlFor={"map_product_" + inheritedIndex} key={"f" + prodIndex}>
                                     <legend className="ccl-form-legend">
                                         {product.ProductTitle}
@@ -137,7 +141,7 @@ class MenuWidget extends React.Component {
         return (
             <div className="ccl-form-group map-menu-dataset" id={"dataset_ " + inheritedIndex} key={"a" + datIndex}>
                 <div className="map-dataset-checkbox" key={"b" + datIndex}>
-                    <input type="checkbox" id={"map_dataset_" + inheritedIndex} name="" value="name" className="ccl-checkbox ccl-required ccl-form-check-input" key={"c" + datIndex} onChange={(e) => {this.toggleDataset(e.target.checked,"layer_container_" + dataset.DatasetId) }}></input>
+                    <input type="checkbox" id={"map_dataset_" + inheritedIndex} name="" value="name" className="ccl-checkbox ccl-required ccl-form-check-input" key={"c" + datIndex} onChange={(e) => { this.toggleDataset(e.target.checked, "layer_container_" + dataset.DatasetId) }}></input>
                     <label className="ccl-form-check-label" htmlFor={"map_dataset_" + inheritedIndex} key={"d" + datIndex} >
                         <span>{dataset.DatasetTitle}</span>
                     </label>
@@ -167,7 +171,7 @@ class MenuWidget extends React.Component {
 
         return (
             <div className="ccl-form-group map-menu-layer" id={"layer_" + inheritedIndex} key={"a" + layerIndex}>
-                <input type="checkbox" id={layer.LayerId} name="" value="name" className="ccl-checkbox ccl-required ccl-form-check-input" key={"c" + layerIndex} onChange={(e) => {this.toggleLayer(e.target) }}></input>
+                <input type="checkbox" id={layer.LayerId} name="" value="name" className="ccl-checkbox ccl-required ccl-form-check-input" key={"c" + layerIndex} title={layer.Title} onChange={(e) => { this.toggleLayer(e.target) }}></input>
                 <label className="ccl-form-check-label" htmlFor={layer.LayerId} key={"d" + layerIndex} >
                     <span>{layer.Title}</span>
                 </label>
@@ -180,11 +184,16 @@ class MenuWidget extends React.Component {
      * @param {*} elem 
      */
     toggleLayer(elem) {
+        console.log(elem.title)
         if (elem.checked) {
             this.map.add(this.layers[elem.id])
+            this.activeLayers.push(this.addActiveLayer(elem));
+            this.setState({});
         }
         else {
             this.map.remove(this.layers[elem.id])
+            this.removeActiveLayer()
+            this.setState({});
         }
     }
 
@@ -194,10 +203,10 @@ class MenuWidget extends React.Component {
      * @param {*} value 
      * @param {*} id 
      */
-    toggleDataset(value,id) {
-        var layerChecks = document.querySelector("#"+id).querySelectorAll("input[type=checkbox]");
+    toggleDataset(value, id) {
+        var layerChecks = document.querySelector("#" + id).querySelectorAll("input[type=checkbox]");
         layerChecks.forEach(
-            element => {    
+            element => {
                 element.checked = value;
                 this.toggleLayer(element);
             }
@@ -209,28 +218,117 @@ class MenuWidget extends React.Component {
      * @param {*} value 
      * @param {*} id 
      */
-    toggleProduct(value,id){
-        var datasetChecks = document.querySelector("#"+id).querySelectorAll("[id^='map_dataset_']")
-        var layerContainers = document.querySelector("#"+id).querySelectorAll("[id^='layer_container']")
+    toggleProduct(value, id) {
+        var datasetChecks = document.querySelector("#" + id).querySelectorAll("[id^='map_dataset_']")
+        var layerContainers = document.querySelector("#" + id).querySelectorAll("[id^='layer_container']")
         datasetChecks.forEach(
-            element => {    
+            element => {
                 element.checked = value;
             }
         )
         layerContainers.forEach(
-            element => {    
-                this.toggleDataset(value,element.id);
+            element => {
+                this.toggleDataset(value, element.id);
             }
         )
     }
-        
+
 
     toggleDropdownContent(e) {
         var aria = e.target.getAttribute('aria-expanded');
         e.target.setAttribute("aria-expanded", aria == 'true' ? 'false' : 'true');
     }
 
-    /**
+
+
+
+    // function mapAddLayers(layer) {
+    //     $(".map-active-layers").prepend(
+    //       '<div class="active-layer" id="active_'+ layer.id +'">'+
+    //         '<div class="active-layer-name" name="'+ $(layer).find(".map-layer-name").val() +'">'+ $(layer).find("label").text() +'</div>'+
+    //         '<div class="active-layer-options">'+
+    //           '<span class="active-layer-position">'+
+    //             '<span class="active-layer-position-up"><i class="fas fa-long-arrow-alt-up"></i></span>'+
+    //             '<span class="active-layer-position-down"><i class="fas fa-long-arrow-alt-down"></i></span>'+
+    //           '</span>'+
+    //           '<span class="active-layer-hide"><i class="fas fa-eye"></i></span>'+
+    //           '<span class="active-layer-delete"><i class="fas fa-times"></i></span>'+
+    //         '</div>'+
+    //       '</div>'
+    //     );
+    //     var id = layer.id.replace("layer_",'');
+    //     var url = $(layer).parents(".map-menu-dataset").find(".map-dataset-url").val();
+
+    addActiveLayer(elem) {
+        // con el id de las active layers, se cargan en los correspondientes divs
+        return (
+            <div className="active-layer" id={'active_' + elem.id} key={"a" + elem.id}>
+                <div className="active-layer-name" name={elem.id} key={"b" + elem.id}>{elem.title}</div>
+                <div className="active-layer-options" key={"c" + elem.id}>
+                    <span className="active-layer-hide"><i className="fas fa-eye"></i></span>
+                    <span className="active-layer-delete"><i className="fas fa-times"></i></span>
+                </div>
+            </div>
+        );
+
+    }
+
+
+    removeActiveLayer(elem){
+        // elimitar eemento de this.activeLayer que corresponda a id 
+        // eliminar vector splice ?¿
+        // borrar elemento de vector
+        console.log(elem)
+    }
+
+
+
+
+    toggleTab() {
+        var tabsel = document.querySelector('.tab-selected');
+        var tab = document.querySelector('span.tab:not(.tab-selected)');
+        var panelsel = document.querySelector('.panel-selected');
+        var panel = document.querySelector('div.panel:not(.panel-selected)');
+
+        tabsel.className = 'tab';
+        tabsel.setAttribute('aria-selected', 'false');
+        panelsel.className = 'panel';
+        panelsel.setAttribute('aria-hidden', 'false');
+
+        tab.className = 'tab tab-selected'
+        tab.setAttribute('aria-selected', 'true');
+        panel.className = 'panel panel-selected';
+        panel.setAttribute('aria-hidden', 'true');
+    }
+
+
+    // LEFT PART FOR RENDER IN MENU
+    //     <div class="map-download-datasets">
+    //     <div class="map-login-block">
+    //         <div class="login-content">
+    //             <button class="ccl-button ccl-button--default login-block-button">Login to download the data</button>
+    //             <p class="login-block-new">New user? <a href="../register.html">Follow this link to register</a></p>
+    //         </div>
+    //     </div>
+    //     <div class="map-area-block">
+    //         <button class="ccl-button ccl-button-green">Add to cart</button>
+    //         <div class="message-block">
+    //             <div class="message-icon">
+    //                 <i class="far fa-comment-alt"></i>
+    //             </div>
+    //             <div class="message-text">
+    //                 <p>This is a warning related to the funcionality of start downloading the datasets</p>
+    //                 <ul>
+    //                     <li>May be can include a link to somewhere</li>
+    //                     <li>Or an informative text</li>
+    //                 </ul>
+    //             </div>
+    //         </div>
+    //     </div>
+    // </div>
+
+
+    /** 
      * This method renders the component
      * @returns jsx
      */
@@ -239,9 +337,9 @@ class MenuWidget extends React.Component {
             <>
                 <div ref={this.container} className="map-left-menu-container">
                     <div className="map-menu tab-container" id='tabcontainer'>
-                        <div className="tabs" role="tablist" onClick={this.openMenu.bind(this)}>
-                            <span className="tab tab-selected" id="products_label" role="tab" aria-controls="products_panel" aria-selected="true">Products and datasets</span>
-                            <span className="tab" id="active_label" role="tab" aria-controls="active_panel" aria-selected="false">Active on map</span>
+                        <div className="tabs" role="tablist">
+                            <span className="tab tab-selected" id="products_label" role="tab" aria-controls="products_panel" aria-selected="true" onClick={() => this.toggleTab()}>Products and datasets</span>
+                            <span className="tab" id="active_label" role="tab" aria-controls="active_panel" aria-selected="false" onClick={() => this.toggleTab()}>Active on map</span>
                         </div>
                         <div className="panels" id='paneles'>
                             <div className="panel panel-selected" id="products_panel" role="tabpanel" aria-hidden="false">
@@ -249,7 +347,13 @@ class MenuWidget extends React.Component {
                                     this.metodprocessJSON()
                                 }
                             </div>
-                            <div className="panel" id="active_panel" role="tabpanel" aria-hidden="true"></div>
+                            <div className="panel" id="active_panel" role="tabpanel" aria-hidden="true">
+                                <div className="map-active-layers">
+                                    {
+                                        this.activeLayers
+                                    }
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div
