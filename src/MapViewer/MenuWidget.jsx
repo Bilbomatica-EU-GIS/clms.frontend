@@ -24,6 +24,7 @@ class MenuWidget extends React.Component {
         this.menuClass = 'esri-icon-drag-horizontal esri-widget--button esri-widget esri-interactive';
         this.layers = {};
         this.activeLayers = []
+        this.activeLayersJSON = {}
 
     }
     /**
@@ -184,17 +185,19 @@ class MenuWidget extends React.Component {
      * @param {*} elem 
      */
     toggleLayer(elem) {
-        console.log(elem.title)
+
         if (elem.checked) {
+            console.log("**VOY A Añadir");
             this.map.add(this.layers[elem.id])
-            this.activeLayers.push(this.addActiveLayer(elem));
-            this.setState({});
+            this.activeLayersJSON[elem.id] = this.addActiveLayer(elem)
+            //console.info(this.activeLayersJSON)
         }
         else {
+            console.log("**VOY A ELIMINAR");
             this.map.remove(this.layers[elem.id])
-            this.removeActiveLayer()
-            this.setState({});
+            delete (this.activeLayersJSON[elem.id])
         }
+        this.setState({});
     }
 
 
@@ -241,49 +244,56 @@ class MenuWidget extends React.Component {
 
 
 
-
-    // function mapAddLayers(layer) {
-    //     $(".map-active-layers").prepend(
-    //       '<div class="active-layer" id="active_'+ layer.id +'">'+
-    //         '<div class="active-layer-name" name="'+ $(layer).find(".map-layer-name").val() +'">'+ $(layer).find("label").text() +'</div>'+
-    //         '<div class="active-layer-options">'+
-    //           '<span class="active-layer-position">'+
-    //             '<span class="active-layer-position-up"><i class="fas fa-long-arrow-alt-up"></i></span>'+
-    //             '<span class="active-layer-position-down"><i class="fas fa-long-arrow-alt-down"></i></span>'+
-    //           '</span>'+
-    //           '<span class="active-layer-hide"><i class="fas fa-eye"></i></span>'+
-    //           '<span class="active-layer-delete"><i class="fas fa-times"></i></span>'+
-    //         '</div>'+
-    //       '</div>'
-    //     );
-    //     var id = layer.id.replace("layer_",'');
-    //     var url = $(layer).parents(".map-menu-dataset").find(".map-dataset-url").val();
-
+    /**
+     * Method to show Active Layers of the map
+     * @param {*} elem From the click event  
+     */
     addActiveLayer(elem) {
-        // con el id de las active layers, se cargan en los correspondientes divs
         return (
-            <div className="active-layer" id={'active_' + elem.id} key={"a" + elem.id}>
-                <div className="active-layer-name" name={elem.id} key={"b" + elem.id}>{elem.title}</div>
-                <div className="active-layer-options" key={"c" + elem.id}>
-                    <span className="active-layer-hide"><i className="fas fa-eye"></i></span>
-                    <span className="active-layer-delete"><i className="fas fa-times"></i></span>
+            <div className="active-layer" id={'active_' + elem.id} key={"a_" + elem.id}>
+                <div className="active-layer-name" name={elem.id} key={"b_" + elem.id}>{elem.title}</div>
+                <div className="active-layer-options" key={"c_" + elem.id}>
+                    <span className="active-layer-hide"><i className="fas fa-eye" onClick={() => this.eyeLayer(elem)}></i></span>
+                    <span className="active-layer-delete"><i className="fas fa-times" onClick={() => this.deleteCrossEvent(elem)}></i></span>
                 </div>
             </div>
         );
 
     }
 
-
-    removeActiveLayer(elem){
-        // elimitar eemento de this.activeLayer que corresponda a id 
-        // eliminar vector splice ?¿
-        // borrar elemento de vector
+    eyeLayer(elem) {
+        console.log(this.activeLayersAsArray)
         console.log(elem)
+        if (elem.checked){
+            var eye = document.querySelector('fas fa-eye');
+            eye.className = 'fa-eye-slash';
+
+        }
+        else{
+
+        }
+        
+
     }
 
+    deleteCrossEvent(elem) {
+        if (elem.checked) {
+            console.log(elem);
+            console.log(elem.id);
+            console.log(this.layers);
+            console.log(this.map);
+            this.map.remove(this.layers[elem.id])
+            delete (this.activeLayersJSON[elem.id])
+            this.setState({})
+        }
+        else {
+        }
 
+    }
 
-
+    /**
+     * Method to change between tabs
+     */
     toggleTab() {
         var tabsel = document.querySelector('.tab-selected');
         var tab = document.querySelector('span.tab:not(.tab-selected)');
@@ -300,6 +310,20 @@ class MenuWidget extends React.Component {
         panel.className = 'panel panel-selected';
         panel.setAttribute('aria-hidden', 'true');
     }
+
+
+    /**
+     * Method to change between tabs
+     */
+    activeLayersAsArray() {
+        let activeLayersArray = []
+        for (var i in this.activeLayersJSON) {
+            activeLayersArray.push(this.activeLayersJSON[i])
+        }
+        return activeLayersArray;
+    }
+
+
 
 
     // LEFT PART FOR RENDER IN MENU
@@ -350,7 +374,8 @@ class MenuWidget extends React.Component {
                             <div className="panel" id="active_panel" role="tabpanel" aria-hidden="true">
                                 <div className="map-active-layers">
                                     {
-                                        this.activeLayers
+                                        this.activeLayersAsArray()
+                                        // this.activeLayersAsArray Esta es la q deberia ir
                                     }
                                 </div>
                             </div>
