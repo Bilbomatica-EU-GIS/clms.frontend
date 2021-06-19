@@ -165,10 +165,12 @@ class MenuWidget extends React.Component {
         //Por cada layer 
         var inheritedIndex = inheritedIndex + "_" + layerIndex;
 
-        this.layers[layer.LayerId] = new WMSLayer({
-            url: urlWMS,
-            id: layer.LayerId
-        });
+        if(!this.layers.hasOwnProperty(layer.LayerId)){
+            this.layers[layer.LayerId] = new WMSLayer({
+                url: urlWMS,
+                id: layer.LayerId
+            });
+        }
 
         return (
             <div className="ccl-form-group map-menu-layer" id={"layer_" + inheritedIndex} key={"a" + layerIndex}>
@@ -185,15 +187,11 @@ class MenuWidget extends React.Component {
      * @param {*} elem 
      */
     toggleLayer(elem) {
-
         if (elem.checked) {
-            console.log("**VOY A Añadir");
             this.map.add(this.layers[elem.id])
             this.activeLayersJSON[elem.id] = this.addActiveLayer(elem)
-            //console.info(this.activeLayersJSON)
         }
         else {
-            console.log("**VOY A ELIMINAR");
             this.map.remove(this.layers[elem.id])
             delete (this.activeLayersJSON[elem.id])
         }
