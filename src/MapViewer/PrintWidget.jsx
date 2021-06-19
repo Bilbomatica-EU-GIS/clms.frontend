@@ -47,6 +47,33 @@ class PrintWidget extends React.Component {
             container: this.container.current.querySelector(".print-panel"),
         });
     }
+    componentDidUpdate() {
+        let title_input = this.container.current.querySelector("input.esri-print__input-text");
+        if (!title_input.oninput){
+            title_input.oninput = () => {
+                    let c = title_input.selectionStart;
+                    let r = /[^a-z0-9 .]/gi;
+                    let v = title_input.value;
+                    if(r.test(v)) {
+                        title_input.value = v.replace(r, '');
+                        c--;
+                    }
+                    title_input.setSelectionRange(c, c);
+                }
+        }
+    }
+    keepInputLength()
+    onInputChange(e){
+        let elem = e.target;
+        let c = elem.selectionStart;
+        let r = /[^a-z0-9 .]/gi;
+        let v = elem.value;
+        if(r.test(v)) {
+            elem.value = v.replace(r, '');
+            c--;
+        }
+        elem.setSelectionRange(c, c);
+    }
     /**
      * This method renders the component
      * @returns jsx
