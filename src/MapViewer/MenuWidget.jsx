@@ -165,7 +165,7 @@ class MenuWidget extends React.Component {
         //Por cada layer 
         var inheritedIndex = inheritedIndex + "_" + layerIndex;
 
-        if(!this.layers.hasOwnProperty(layer.LayerId)){
+        if (!this.layers.hasOwnProperty(layer.LayerId)) {
             this.layers[layer.LayerId] = new WMSLayer({
                 url: urlWMS,
                 id: layer.LayerId
@@ -251,7 +251,7 @@ class MenuWidget extends React.Component {
             <div className="active-layer" id={'active_' + elem.id} key={"a_" + elem.id}>
                 <div className="active-layer-name" name={elem.id} key={"b_" + elem.id}>{elem.title}</div>
                 <div className="active-layer-options" key={"c_" + elem.id}>
-                    <span className="active-layer-hide"><i className="fas fa-eye" onClick={() => this.eyeLayer(elem)}></i></span>
+                    <span className="active-layer-hide"><i className="fas fa-eye" onClick={(e) => this.eyeLayer(e, elem.id)}></i></span>
                     <span className="active-layer-delete"><i className="fas fa-times" onClick={() => this.deleteCrossEvent(elem)}></i></span>
                 </div>
             </div>
@@ -259,33 +259,30 @@ class MenuWidget extends React.Component {
 
     }
 
-    eyeLayer(elem) {
-        console.log(this.activeLayersAsArray)
-        console.log(elem)
-        if (elem.checked){
-            var eye = document.querySelector('fas fa-eye');
-            eye.className = 'fa-eye-slash';
-
+    eyeLayer(e, id) {
+        var eye = e.target
+        if (eye.className === 'fas fa-eye') {
+            eye.className = 'fas fa-eye fa-eye-slash';
+            this.map.remove(this.layers[id])
         }
-        else{
-
+        else {
+            eye.className = 'fas fa-eye';
+            this.map.add(this.layers[id])
         }
-        
 
     }
 
+
+
     deleteCrossEvent(elem) {
-        if (elem.checked) {
-            console.log(elem);
-            console.log(elem.id);
-            console.log(this.layers);
-            console.log(this.map);
-            this.map.remove(this.layers[elem.id])
-            delete (this.activeLayersJSON[elem.id])
-            this.setState({})
-        }
-        else {
-        }
+        // this.toggleLayer() Esto tiene q funcionar asi
+        this.map.remove(this.layers[elem.id])
+
+        delete (this.activeLayersJSON[elem.id])
+
+        this.setState({})
+
+
 
     }
 
@@ -311,7 +308,7 @@ class MenuWidget extends React.Component {
 
 
     /**
-     * Method to change between tabs
+     * Method to change js
      */
     activeLayersAsArray() {
         let activeLayersArray = []
@@ -373,7 +370,6 @@ class MenuWidget extends React.Component {
                                 <div className="map-active-layers">
                                     {
                                         this.activeLayersAsArray()
-                                        // this.activeLayersAsArray Esta es la q deberia ir
                                     }
                                 </div>
                             </div>
