@@ -134,15 +134,16 @@ class MenuWidget extends React.Component {
         var layers = [];
         var index = 0;
         var inheritedIndex = inheritedIndex + "_" + datIndex;
+        var checkIndex = "map_dataset_" + inheritedIndex
 
         for (var i in dataset.Layer) {
-            layers.push(this.metodProcessLayer(dataset.Layer[i], index, inheritedIndex, dataset.ViewService));
+            layers.push(this.metodProcessLayer(dataset.Layer[i], index, inheritedIndex, dataset.ViewService, checkIndex));
             index++;
         }
         return (
             <div className="ccl-form-group map-menu-dataset" id={"dataset_ " + inheritedIndex} key={"a" + datIndex}>
                 <div className="map-dataset-checkbox" key={"b" + datIndex}>
-                    <input type="checkbox" id={"map_dataset_" + inheritedIndex} name="" value="name" className="ccl-checkbox ccl-required ccl-form-check-input" key={"c" + datIndex} onChange={(e) => { this.toggleDataset(e.target.checked, "layer_container_" + dataset.DatasetId) }}></input>
+                    <input type="checkbox" id={checkIndex} parentid={"map_product_" + inheritedIndex} name="" value="name" className="ccl-checkbox ccl-required ccl-form-check-input" key={"c" + datIndex} onChange={(e) => { this.toggleDataset(e.target.checked, "layer_container_" + dataset.DatasetId) }}></input>
                     <label className="ccl-form-check-label" htmlFor={"map_dataset_" + inheritedIndex} key={"d" + datIndex} >
                         <span>{dataset.DatasetTitle}</span>
                     </label>
@@ -161,7 +162,7 @@ class MenuWidget extends React.Component {
         );
     }
 
-    metodProcessLayer(layer, layerIndex, inheritedIndex, urlWMS) {
+    metodProcessLayer(layer, layerIndex, inheritedIndex, urlWMS,parentIndex) {
         //Por cada layer 
         var inheritedIndex = inheritedIndex + "_" + layerIndex;
 
@@ -174,7 +175,7 @@ class MenuWidget extends React.Component {
 
         return (
             <div className="ccl-form-group map-menu-layer" id={"layer_" + inheritedIndex} key={"a" + layerIndex}>
-                <input type="checkbox" id={layer.LayerId} name="" value="name" className="ccl-checkbox ccl-required ccl-form-check-input" key={"c" + layerIndex} title={layer.Title} onChange={(e) => { this.toggleLayer(e.target) }}></input>
+                <input type="checkbox" id={layer.LayerId} parentid={parentIndex} name="" value="name" className="ccl-checkbox ccl-required ccl-form-check-input" key={"c" + layerIndex} title={layer.Title} onChange={(e) => { this.toggleLayer(e.target) }}></input>
                 <label className="ccl-form-check-label" htmlFor={layer.LayerId} key={"d" + layerIndex} >
                     <span>{layer.Title}</span>
                 </label>
@@ -184,15 +185,20 @@ class MenuWidget extends React.Component {
 
     /**
      * Method to show/hide a layer
-     * @param {*} elem 
+     * @param {*} elem Is the checkbox 
      */
     toggleLayer(elem) {
+        var parentId = elem.getAttribute("parentid")
+        var checkparents = document.querySelector("#"+parentId);
+        
         if (elem.checked) {
             this.map.add(this.layers[elem.id])
+            checkparents.checked = true
             this.activeLayersJSON[elem.id] = this.addActiveLayer(elem)
         }
         else {
             this.map.remove(this.layers[elem.id])
+            checkparents.checked = false
             delete (this.activeLayersJSON[elem.id])
         }
         this.setState({});
@@ -213,6 +219,16 @@ class MenuWidget extends React.Component {
             }
         )
     }
+
+    // $(document).on("change",".map-product-checkbox input", function(){
+    //     var datasets = $(this).parents(".map-menu-components-container").find(".map-menu-dataset");
+    //     if (this.checked) {
+    //       datasets.find(".map-dataset-checkbox input[type=checkbox]").prop("checked",true);
+    //       datasets.each(function( i, dataset ) {
+    //         mapAddDatasets(dataset);
+    //       });
+
+
 
     /**
      * Method to show/hide all the datasets of a product
@@ -277,9 +293,7 @@ class MenuWidget extends React.Component {
     deleteCrossEvent(elem) {
         // this.toggleLayer() Esto tiene q funcionar asi
         this.map.remove(this.layers[elem.id])
-
         delete (this.activeLayersJSON[elem.id])
-
         this.setState({})
 
 
