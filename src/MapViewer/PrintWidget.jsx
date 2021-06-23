@@ -16,6 +16,8 @@ class PrintWidget extends React.Component {
         //not be showing the basemap panel
         this.state = {showMapMenu: false};
         this.menuClass = 'esri-icon-printer esri-widget--button esri-widget esri-interactive';
+        this.titleMaxLength = 50;
+        this.textMaxLength = 200;
     }
     /**
      * Method that will be invoked when the 
@@ -47,6 +49,89 @@ class PrintWidget extends React.Component {
             container: this.container.current.querySelector(".print-panel"),
         });
     }
+
+    componentDidUpdate() {
+        let exportBtn = document.querySelector(".esri-print__export-button");
+        this.setLayoutConstraints();
+        this.setMapOnlyConstraints();
+    }
+
+    /**
+     * Sets constrictions on text inputs
+     */
+    setMapOnlyConstraints() {
+        let mapOnly = document.querySelector("[data-tab-id='mapOnlyTab']");
+
+        //If map only options are deployed, same restriction for all the text inputs
+        var observer = new MutationObserver(
+            (mutations) => {
+                mutations.forEach((mutation)=>{
+                    if(mutation.attributeName == "aria-selected"){
+                        let currentExpand = mutation.target.getAttribute("aria-selected");
+                        if(currentExpand==="true"){
+                            this.setTextFilters();
+                            let optSVGZ = document.querySelector("[value='svgz']");
+                            optSVGZ && optSVGZ.parentElement.removeChild(optSVGZ);
+                            let fileName = document.querySelector("[data-input-name='fileName']");
+                            fileName.parentElement.setAttribute("style","display:none");
+                        } else {
+                            this.setLayoutConstraints();
+                        }
+                    }
+                })
+            }
+        );
+        observer.observe(mapOnly, {attributes: true});
+    }
+
+    setLayoutConstraints() {
+        this.setTextFilters();
+        let advanceOptions = document.querySelector(".esri-print__advanced-options-button");
+
+        //If advanced options are deployed, same restriction for all the text inputs
+        var advancedFunction = (mutations) => {
+            mutations.forEach((mutation)=>{
+                if(mutation.attributeName == "aria-expanded"){
+                    let currentExpand = mutation.target.getAttribute("aria-expanded");
+                    if(currentExpand){
+                        this.setTextFilters();
+                    }
+                }
+            })
+        };
+        var observer = new MutationObserver((m)=>{
+            advancedFunction(m);
+        });
+        observer.observe(advanceOptions, {attributes: true});
+    }
+    
+    noSpecialChars(elem){
+        let c = elem.selectionStart;
+        let r = /[^a-z0-9 .]/gi;
+        let v = elem.value;
+        if(r.test(v)) {
+            elem.value = v.replace(r, '');
+            c--;
+        }
+        elem.setSelectionRange(c, c);
+    }
+
+    setTextFilters() {
+        let inputs = document.querySelectorAll("input.esri-print__input-text");
+        inputs.forEach((input)=>{
+            if(input.type==="text" && !input.oninput){
+                if((input.getAttribute("data-input-name")==="title")||
+                   (input.getAttribute("data-input-name")==="fileName")
+                ){
+                    input.setAttribute("maxlength",""+this.titleMaxLength);
+                } else {
+                    input.setAttribute("maxlength",""+this.textMaxLength);
+                }
+                input.oninput = () => {this.noSpecialChars(input);}
+            }
+        })
+    }
+
     /**
      * This method renders the component
      * @returns jsx
