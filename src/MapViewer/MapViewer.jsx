@@ -1,10 +1,18 @@
 import React, { useRef, useEffect, useState, useCallback, createRef } from "react";
+//import intl from "@arcgis/intl";
+import {getLocale, setLocale} from "@arcgis/core/intl";
 import Map from "@arcgis/core/Map";
 import MapView from "@arcgis/core/views/MapView";
 import Zoom from "@arcgis/core/widgets/Zoom";
 import "@arcgis/core/assets/esri/css/main.css";
 import "./ArcgisMap.css";
 import BasemapWidget from './BasemapWidget';
+import MeasurementWidget from './MeasurementWidget';
+import PrintWidget from './PrintWidget';
+import AreaWidget from './AreaWidget';
+import ScaleWidget from './ScaleWidget';
+import LegendWidget from './LegendWidget';
+import MenuWidget from './MenuWidget';
 
 class MapViewer extends React.Component {
     /**
@@ -18,10 +26,12 @@ class MapViewer extends React.Component {
         //create here to reference the DOM element from javascript
         //code, for example, to create later a MapView component 
         //that will use the map div to show the map
+        setLocale("en");
         this.mapdiv = createRef();
         this.mapCfg = props.cfg.Map;
+        this.compCfg = props.cfg.Components;
         this.map = new Map({
-            basemap: "topo-vector"
+            basemap: "topo"
         });
     }
     
@@ -33,15 +43,16 @@ class MapViewer extends React.Component {
     componentDidMount() {
         // this.mapdiv.current is the reference to the current DOM element of 
         // this.mapdiv after it was mounted by the render() method
+        setLocale("en-GB");
         this.view = new MapView({
-                                    container: this.mapdiv.current,
-                                    map: this.map,
-                                    center: this.mapCfg.center,
-                                    zoom: this.mapCfg.zoom,
-                                    ui: {
-                                        components: ["attribution"] 
-                                    }
-                                });
+            container: this.mapdiv.current,
+            map: this.map,
+            center: this.mapCfg.center,
+            zoom: this.mapCfg.zoom,
+            ui: {
+                components: ["attribution"]
+            }
+        });
         this.zoom = new Zoom({
             view: this.view
         });
@@ -66,6 +77,39 @@ class MapViewer extends React.Component {
         if (this.view)
             return <BasemapWidget view={this.view} />
     }
+
+    renderLegend(){
+        if(this.view)
+            return <LegendWidget view={this.view} />
+    }
+    
+    renderMeasurement() {
+        if (this.view)
+            return <MeasurementWidget view={this.view} />
+    }
+
+    renderPrint() {
+        if (this.view)
+            return <PrintWidget view={this.view} />
+    }
+
+    renderArea() {
+        if (this.view)
+            return <AreaWidget view={this.view}  map={this.map}/>
+    }
+
+    renderScale() {
+        if (this.view)
+            return <ScaleWidget view={this.view} />
+    }
+
+    renderMenu() {
+        if (this.view)
+            return <MenuWidget view={this.view}  conf={this.compCfg} map={this.map}/> //call conf 
+    }
+
+
+   
     
     /**
      * This method renders the map viewer, invoking if necessary the methods
@@ -79,6 +123,13 @@ class MapViewer extends React.Component {
             <div className="map-container">
                 <div ref={this.mapdiv} className="map">
                     {this.renderBasemap()}
+                    {this.renderLegend()}
+                    {this.renderMeasurement()}
+                    {this.renderPrint()}
+                    {this.renderArea()}
+                    {this.renderScale()}
+                    {this.renderMenu()}
+                    
                 </div>
             </div>
         )

@@ -1,9 +1,9 @@
-import BasemapGallery from "@arcgis/core/widgets/BasemapGallery";
-import React, { useState, createRef } from "react";
+import Legend from "@arcgis/core/widgets/Legend";
+import React, {useState, createRef } from "react";
 import "@arcgis/core/assets/esri/css/main.css";
 import "./ArcgisMap.css";
 
-class BasemapWidget extends React.Component {
+class LegendWidget extends React.Component {
     /**
      * Creator of the Basemap widget class
      * @param {*} props 
@@ -15,8 +15,7 @@ class BasemapWidget extends React.Component {
         //Initially, we set the state of the component to 
         //not be showing the basemap panel
         this.state = {showMapMenu: false};
-        this.menuClass = 'esri-icon-basemap esri-widget--button esri-widget esri-interactive esri-icon-basemap';
-        this.loadFirst = true;
+        this.menuClass = 'esri-icon-legend esri-widget--button esri-widget esri-interactive';
     }
     /**
      * Method that will be invoked when the 
@@ -24,20 +23,16 @@ class BasemapWidget extends React.Component {
      * and close actions of the component
      */
     openMenu() {
-        if (this.loadFirst){
-            document.querySelectorAll(".esri-basemap-gallery__item")[3].setAttribute("aria-selected",true);
-            document.querySelectorAll(".esri-basemap-gallery__item")[3].classList.add("esri-basemap-gallery__item--selected");
-            this.loadFirst = false;
-        }
         if (this.state.showMapMenu) {
-            this.basemapGallery.domNode.style.display = 'none';
-            this.container.current.querySelector(".esri-widget--button").classList.replace('esri-icon-right-arrow','esri-icon-basemap');
+            this.container.current.querySelector(".legend-panel").style.display='none';
+            this.container.current.querySelector(".esri-widget--button").classList.replace('esri-icon-right-arrow','esri-icon-legend');
             // By invoking the setState, we notify the state we want to reach
             // and ensure that the component is rendered again
             this.setState({showMapMenu: false});
         } else {
-            this.basemapGallery.domNode.style.display = 'block';
-            this.container.current.querySelector(".esri-widget--button").classList.replace('esri-icon-basemap','esri-icon-right-arrow');
+           
+            this.container.current.querySelector(".esri-widget--button").classList.replace('esri-icon-legend','esri-icon-right-arrow');
+            this.container.current.querySelector(".legend-panel").style.display='block';
             // By invoking the setState, we notify the state we want to reach
             // and ensure that the component is rendered again
             this.setState({showMapMenu: true});
@@ -48,10 +43,9 @@ class BasemapWidget extends React.Component {
      */
     componentDidMount() {
         this.props.view.ui.add(this.container.current, "top-right");
-        this.basemapGallery = new BasemapGallery({
+        this.LegendWidget = new Legend({
             view: this.props.view,
-            container: this.container.current.querySelector(".basemap-panel"),
-            //activeBasemap: "topo"
+            container: document.querySelector(".legend-panel"),
         })
     }
     /**
@@ -61,19 +55,19 @@ class BasemapWidget extends React.Component {
     render(){
         return(
             <>
-                <div ref={this.container} className="basemap-container">
+                <div ref={this.container} className="legend-container">
                     <div
                         className={this.menuClass}
-                        id="map_basemap_button"
+                        id="legend_button"
                         role="button"
-                        title="Basemap gallery"
+                        title="Legend"
                         onClick={this.openMenu.bind(this)}>
                     </div>
-                    <div className="basemap-panel"></div>
+                    <div className= "legend-panel"></div>
                 </div>
             </>
         );
     }
 }
 
-export default BasemapWidget;
+export default LegendWidget;
