@@ -59,12 +59,12 @@ class MenuWidget extends React.Component {
     componentDidMount() {
         this.props.view.ui.add(this.container.current, "top-left");
 
-        //para poder verlo setState aqui
+        //to watch the component
         this.setState({});
 
 
     }
-    //Procesar JSON solo 1 vez
+    //Only process JSON once
     metodprocessJSON() {
         var components = [];
         var index = 0;
@@ -101,8 +101,9 @@ class MenuWidget extends React.Component {
         var datasets = [];
         var index = 0;
         var inheritedIndex = inheritedIndex + "_" + prodIndex;
+        var checkProduct = "map_product_" + inheritedIndex
         for (var i in product.Datasets) {
-            datasets.push(this.metodProcessDataset(product.Datasets[i], index, inheritedIndex));
+            datasets.push(this.metodProcessDataset(product.Datasets[i], index, inheritedIndex,checkProduct));
             index++;
 
         }
@@ -113,7 +114,7 @@ class MenuWidget extends React.Component {
                     <div className="ccl-expandable__button" aria-expanded="false" key={"c" + prodIndex} onClick={this.toggleDropdownContent.bind(this)}>
                         <div className="ccl-form map-product-checkbox" key={"d" + prodIndex}>
                             <div className="ccl-form-group" key={"e" + prodIndex}>
-                                <input type="checkbox" id={"map_product_" + inheritedIndex} name="" value="name" className="ccl-checkbox ccl-required ccl-form-check-input" key={"h" + prodIndex} onChange={(e) => this.toggleProduct(e.target.checked, "datasets_container" + prodIndex)}></input>
+                                <input type="checkbox" id={checkProduct} name="" value="name" className="ccl-checkbox ccl-required ccl-form-check-input" key={"h" + prodIndex} onChange={(e) => this.toggleProduct(e.target.checked, "datasets_container" + prodIndex)}></input>
                                 <label className="ccl-form-check-label" htmlFor={"map_product_" + inheritedIndex} key={"f" + prodIndex}>
                                     <legend className="ccl-form-legend">
                                         {product.ProductTitle}
@@ -130,7 +131,18 @@ class MenuWidget extends React.Component {
         );
     }
 
-    metodProcessDataset(dataset, datIndex, inheritedIndex) {
+    /**
+     * Method to uncheck Product checkbox if not all dataset are checked
+     * @param {*} productid  
+     */
+     updateCheckProduct(productid){
+        let datasetChecks = Array.from(document.querySelectorAll("[parentid="+productid+"]"));
+        let productCheck = document.querySelector("#"+productid)
+        let trueCheck = datasetChecks.filter(elem=> elem.checked).length;
+        productCheck.checked = (datasetChecks.length===trueCheck)
+    }
+
+    metodProcessDataset(dataset, datIndex, inheritedIndex,checkProduct) {
         var layers = [];
         var index = 0;
         var inheritedIndex = inheritedIndex + "_" + datIndex;
@@ -143,7 +155,7 @@ class MenuWidget extends React.Component {
         return (
             <div className="ccl-form-group map-menu-dataset" id={"dataset_ " + inheritedIndex} key={"a" + datIndex}>
                 <div className="map-dataset-checkbox" key={"b" + datIndex}>
-                    <input type="checkbox" id={checkIndex} parentid={"map_product_" + inheritedIndex} name="" value="name" className="ccl-checkbox ccl-required ccl-form-check-input" key={"c" + datIndex} onChange={(e) => { this.toggleDataset(e.target.checked, "layer_container_" + dataset.DatasetId) }}></input>
+                    <input type="checkbox" id={checkIndex} parentid={checkProduct} name="" value="name" className="ccl-checkbox ccl-required ccl-form-check-input" key={"c" + datIndex} onChange={(e) => { this.toggleDataset(e.target.checked, "layer_container_" + dataset.DatasetId) }}></input>
                     <label className="ccl-form-check-label" htmlFor={"map_dataset_" + inheritedIndex} key={"d" + datIndex} >
                         <span>{dataset.DatasetTitle}</span>
                     </label>
@@ -161,9 +173,23 @@ class MenuWidget extends React.Component {
             </div>
         );
     }
+    /**
+     * Method to uncheck dataset checkbox if not all layers are checked
+     * @param {*} id  
+     */
+
+    updateCheckDataset(id){
+        let datasetCheck = document.querySelector("#"+id);
+        let layerChecks = Array.from(document.querySelectorAll("[parentid="+id+"]"));
+        let trueChecks = layerChecks.filter(elem=> elem.checked).length;
+        datasetCheck.checked = (layerChecks.length===trueChecks);
+        this.updateCheckProduct(datasetCheck.getAttribute("parentid"));
+    }
+
+
 
     metodProcessLayer(layer, layerIndex, inheritedIndex, urlWMS,parentIndex) {
-        //Por cada layer 
+        //For each layer
         var inheritedIndex = inheritedIndex + "_" + layerIndex;
 
         if (!this.layers.hasOwnProperty(layer.LayerId)) {
@@ -184,26 +210,34 @@ class MenuWidget extends React.Component {
     };
 
     /**
-     * Method to show/hide a layer
+     * Method to show/hide a layer. Update checkboxes from dataset and products
      * @param {*} elem Is the checkbox 
      */
     toggleLayer(elem) {
         var parentId = elem.getAttribute("parentid")
-        var checkparents = document.querySelector("#"+parentId);
         
         if (elem.checked) {
             this.map.add(this.layers[elem.id])
-            checkparents.checked = true
             this.activeLayersJSON[elem.id] = this.addActiveLayer(elem)
         }
         else {
             this.map.remove(this.layers[elem.id])
-            checkparents.checked = false
             delete (this.activeLayersJSON[elem.id])
         }
+        this.updateCheckDataset(parentId);
         this.setState({});
     }
 
+    /**
+     * Method to change  to Array JSON activeLayers
+     */
+     activeLayersAsArray() {
+        let activeLayersArray = []
+        for (var i in this.activeLayersJSON) {
+            activeLayersArray.push(this.activeLayersJSON[i])
+        }
+        return activeLayersArray;
+    }
 
     /**
      * Method to show/hide all the layers of a dataset
@@ -219,16 +253,6 @@ class MenuWidget extends React.Component {
             }
         )
     }
-
-    // $(document).on("change",".map-product-checkbox input", function(){
-    //     var datasets = $(this).parents(".map-menu-components-container").find(".map-menu-dataset");
-    //     if (this.checked) {
-    //       datasets.find(".map-dataset-checkbox input[type=checkbox]").prop("checked",true);
-    //       datasets.each(function( i, dataset ) {
-    //         mapAddDatasets(dataset);
-    //       });
-
-
 
     /**
      * Method to show/hide all the datasets of a product
@@ -250,6 +274,10 @@ class MenuWidget extends React.Component {
         )
     }
 
+    /**
+     * Method to toggle dropdown content (datasets and layers)
+     * @param {*} e 
+     */
 
     toggleDropdownContent(e) {
         var aria = e.target.getAttribute('aria-expanded');
@@ -275,6 +303,11 @@ class MenuWidget extends React.Component {
 
     }
 
+    /**
+     * Method to show/hide layer from "Active Layers"
+     * @param {*} e From the click event  
+     * @param {*} id id from elem 
+     */
     eyeLayer(e, id) {
         var eye = e.target
         if (eye.className === 'fas fa-eye') {
@@ -285,14 +318,17 @@ class MenuWidget extends React.Component {
             eye.className = 'fas fa-eye';
             this.map.add(this.layers[id])
         }
-
     }
 
-
-
+    /**
+     * Method to delete layer from "Active Layers" and uncheck dataset and products
+     * @param {*} e From the click event  
+     * @param {*} id id from elem 
+     */
     deleteCrossEvent(elem) {
-        // this.toggleLayer() Esto tiene q funcionar asi
-        this.map.remove(this.layers[elem.id])
+        // elem has to be unchecked
+        elem.checked = false;
+        this.toggleLayer(elem)
         delete (this.activeLayersJSON[elem.id])
         this.setState({})
 
@@ -319,20 +355,6 @@ class MenuWidget extends React.Component {
         panel.className = 'panel panel-selected';
         panel.setAttribute('aria-hidden', 'true');
     }
-
-
-    /**
-     * Method to change js
-     */
-    activeLayersAsArray() {
-        let activeLayersArray = []
-        for (var i in this.activeLayersJSON) {
-            activeLayersArray.push(this.activeLayersJSON[i])
-        }
-        return activeLayersArray;
-    }
-
-
 
 
     // LEFT PART FOR RENDER IN MENU
