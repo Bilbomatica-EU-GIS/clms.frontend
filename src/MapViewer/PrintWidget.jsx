@@ -17,7 +17,8 @@ class PrintWidget extends React.Component {
         this.state = {showMapMenu: false};
         this.menuClass = 'esri-icon-printer esri-widget--button esri-widget esri-interactive';
         this.titleMaxLength = 50;
-        this.textMaxLength = 200;
+        this.authorMaxLength = 65;
+        this.textMaxLength = 180;
     }
     /**
      * Method that will be invoked when the 
@@ -87,6 +88,8 @@ class PrintWidget extends React.Component {
     setLayoutConstraints() {
         this.setTextFilters();
         let advanceOptions = document.querySelector(".esri-print__advanced-options-button");
+        let optSVGZ = document.querySelector("[value='svgz']");
+        optSVGZ && optSVGZ.parentElement.removeChild(optSVGZ);
 
         //If advanced options are deployed, same restriction for all the text inputs
         var advancedFunction = (mutations) => {
@@ -124,6 +127,8 @@ class PrintWidget extends React.Component {
                    (input.getAttribute("data-input-name")==="fileName")
                 ){
                     input.setAttribute("maxlength",""+this.titleMaxLength);
+                } else if(input.getAttribute("data-input-name")==="author") {
+                    input.setAttribute("maxlength",""+this.authorMaxLength);
                 } else {
                     input.setAttribute("maxlength",""+this.textMaxLength);
                 }
