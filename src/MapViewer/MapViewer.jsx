@@ -33,6 +33,7 @@ class MapViewer extends React.Component {
         this.map = new Map({
             basemap: "topo"
         });
+        this.activeWidget = null;
     }
     
     /**
@@ -68,6 +69,18 @@ class MapViewer extends React.Component {
         this.setState({});
     }
 
+    setActiveWidget(widget){
+        if(this.activeWidget === widget) return;
+        this.closeActiveWidget();
+        this.activeWidget = widget;
+    }
+    closeActiveWidget(){
+        if(this.activeWidget){
+            this.activeWidget.openMenu();
+            this.activeWidget = null;
+        }
+    }
+
     /**
      * This method evaluates the ability to render the basemaps widget and
      * returns the jsx allowing such a render (if conditions are ok)
@@ -75,37 +88,37 @@ class MapViewer extends React.Component {
      */
     renderBasemap() {
         if (this.view)
-            return <BasemapWidget view={this.view} />
+            return <BasemapWidget view={this.view} mapViewer={this}/>
     }
 
     renderLegend(){
         if(this.view)
-            return <LegendWidget view={this.view} />
+            return <LegendWidget view={this.view} mapViewer={this}/>
     }
     
     renderMeasurement() {
         if (this.view)
-            return <MeasurementWidget view={this.view} />
+            return <MeasurementWidget view={this.view} mapViewer={this}/>
     }
 
     renderPrint() {
         if (this.view)
-            return <PrintWidget view={this.view} />
+            return <PrintWidget view={this.view} mapViewer={this}/>
     }
 
     renderArea() {
         if (this.view)
-            return <AreaWidget view={this.view}  map={this.map}/>
+            return <AreaWidget view={this.view}  map={this.map} mapViewer={this}/>
     }
 
     renderScale() {
         if (this.view)
-            return <ScaleWidget view={this.view} />
+            return <ScaleWidget view={this.view} mapViewer={this}/>
     }
 
     renderMenu() {
         if (this.view)
-            return <MenuWidget view={this.view}  conf={this.compCfg} map={this.map}/> //call conf 
+            return <MenuWidget view={this.view}  conf={this.compCfg} map={this.map} mapViewer={this}/> //call conf 
     }
 
 

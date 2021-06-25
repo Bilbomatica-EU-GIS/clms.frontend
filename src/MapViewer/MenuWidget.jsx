@@ -1,10 +1,8 @@
-import React, { useState, createRef } from "react";
+import React, { createRef } from "react";
 import "@arcgis/core/assets/esri/css/main.css";
 import WMSLayer from "@arcgis/core/layers/WMSLayer";
 import "./lib/font-awesome/css/all.min.css";
 import "./ArcgisMap.css";
-import { faPassport } from "@fortawesome/free-solid-svg-icons";
-import { layer } from "@fortawesome/fontawesome-svg-core";
 
 class MenuWidget extends React.Component {
     /**
@@ -43,6 +41,7 @@ class MenuWidget extends React.Component {
             // and ensure that the component is rendered again
             this.setState({ showMapMenu: false });
         } else {
+            this.props.mapViewer.setActiveWidget(this);
             this.container.current.querySelector("#tabcontainer").style.display = 'block';
             this.container.current.querySelector('#paneles').style.display = 'block';
             this.container.current.querySelector(".esri-widget--button").classList.replace('esri-icon-drag-horizontal', 'esri-icon-left-arrow');
@@ -64,7 +63,11 @@ class MenuWidget extends React.Component {
 
 
     }
-    //Only process JSON once
+
+    /**
+     * Processes the JSON file containing layers info
+     * @returns 
+     */
     metodprocessJSON() {
         var components = [];
         var index = 0;
@@ -76,6 +79,12 @@ class MenuWidget extends React.Component {
     }
 
 
+    /**
+     * Processes each component
+     * @param {*} component 
+     * @param {*} compIndex 
+     * @returns 
+     */
     metodProcessComponent(component, compIndex) {
         var products = [];
         var index = 0;
@@ -97,6 +106,13 @@ class MenuWidget extends React.Component {
     }
 
 
+    /**
+     * Processes each product (of each component)
+     * @param {*} product 
+     * @param {*} prodIndex 
+     * @param {*} inheritedIndex 
+     * @returns 
+     */
     metodProcessProduct(product, prodIndex, inheritedIndex) {
         var datasets = [];
         var index = 0;
@@ -114,7 +130,7 @@ class MenuWidget extends React.Component {
                     <div className="ccl-expandable__button" aria-expanded="false" key={"c" + prodIndex} onClick={this.toggleDropdownContent.bind(this)}>
                         <div className="ccl-form map-product-checkbox" key={"d" + prodIndex}>
                             <div className="ccl-form-group" key={"e" + prodIndex}>
-                                <input type="checkbox" id={checkProduct} name="" value="name" className="ccl-checkbox ccl-required ccl-form-check-input" key={"h" + prodIndex} onChange={(e) => this.toggleProduct(e.target.checked, "datasets_container" + prodIndex)}></input>
+                                <input type="checkbox" id={checkProduct} name="" value="name" className="ccl-checkbox ccl-required ccl-form-check-input" key={"h" + prodIndex} onChange={(e) => this.toggleProduct(e.target.checked, checkProduct)}></input>
                                 <label className="ccl-form-check-label" htmlFor={"map_product_" + inheritedIndex} key={"f" + prodIndex}>
                                     <legend className="ccl-form-legend">
                                         {product.ProductTitle}
@@ -142,6 +158,14 @@ class MenuWidget extends React.Component {
         productCheck.checked = (datasetChecks.length===trueCheck)
     }
 
+    /**
+     * Processes each dataset (for each product)
+     * @param {*} dataset 
+     * @param {*} datIndex 
+     * @param {*} inheritedIndex 
+     * @param {*} checkProduct 
+     * @returns 
+     */
     metodProcessDataset(dataset, datIndex, inheritedIndex,checkProduct) {
         var layers = [];
         var index = 0;
@@ -155,7 +179,7 @@ class MenuWidget extends React.Component {
         return (
             <div className="ccl-form-group map-menu-dataset" id={"dataset_ " + inheritedIndex} key={"a" + datIndex}>
                 <div className="map-dataset-checkbox" key={"b" + datIndex}>
-                    <input type="checkbox" id={checkIndex} parentid={checkProduct} name="" value="name" className="ccl-checkbox ccl-required ccl-form-check-input" key={"c" + datIndex} onChange={(e) => { this.toggleDataset(e.target.checked, "layer_container_" + dataset.DatasetId) }}></input>
+                    <input type="checkbox" id={checkIndex} parentid={checkProduct} name="" value="name" className="ccl-checkbox ccl-required ccl-form-check-input" key={"c" + datIndex} onChange={(e) => { this.toggleDataset(e.target.checked, checkIndex) }}></input>
                     <label className="ccl-form-check-label" htmlFor={"map_dataset_" + inheritedIndex} key={"d" + datIndex} >
                         <span>{dataset.DatasetTitle}</span>
                     </label>
@@ -173,6 +197,7 @@ class MenuWidget extends React.Component {
             </div>
         );
     }
+
     /**
      * Method to uncheck dataset checkbox if not all layers are checked
      * @param {*} id  
@@ -186,8 +211,15 @@ class MenuWidget extends React.Component {
         this.updateCheckProduct(datasetCheck.getAttribute("parentid"));
     }
 
-
-
+    /**
+     * Processes each layer (of each dataset)
+     * @param {*} layer 
+     * @param {*} layerIndex 
+     * @param {*} inheritedIndex 
+     * @param {*} urlWMS 
+     * @param {*} parentIndex 
+     * @returns 
+     */
     metodProcessLayer(layer, layerIndex, inheritedIndex, urlWMS,parentIndex) {
         //For each layer
         var inheritedIndex = inheritedIndex + "_" + layerIndex;
@@ -218,7 +250,7 @@ class MenuWidget extends React.Component {
         
         if (elem.checked) {
             this.map.add(this.layers[elem.id])
-            this.activeLayersJSON[elem.id] = this.addActiveLayer(elem)
+            this.activeLayersJSON[elem.id] = this.addActiveLayer(elem,Object.keys(this.activeLayersJSON).length);
         }
         else {
             this.map.remove(this.layers[elem.id])
@@ -229,14 +261,16 @@ class MenuWidget extends React.Component {
     }
 
     /**
-     * Method to change  to Array JSON activeLayers
+     * Returns the DOM elements for active layers
+     * just in the order they were added to map
      */
      activeLayersAsArray() {
         let activeLayersArray = []
         for (var i in this.activeLayersJSON) {
             activeLayersArray.push(this.activeLayersJSON[i])
         }
-        return activeLayersArray;
+
+        return activeLayersArray.reverse();
     }
 
     /**
@@ -245,7 +279,7 @@ class MenuWidget extends React.Component {
      * @param {*} id 
      */
     toggleDataset(value, id) {
-        var layerChecks = document.querySelector("#" + id).querySelectorAll("input[type=checkbox]");
+        var layerChecks = document.querySelectorAll("[parentid=" + id + "]");
         layerChecks.forEach(
             element => {
                 element.checked = value;
@@ -260,16 +294,11 @@ class MenuWidget extends React.Component {
      * @param {*} id 
      */
     toggleProduct(value, id) {
-        var datasetChecks = document.querySelector("#" + id).querySelectorAll("[id^='map_dataset_']")
-        var layerContainers = document.querySelector("#" + id).querySelectorAll("[id^='layer_container']")
+        var datasetChecks = document.querySelectorAll("[parentid=" + id + "]");
         datasetChecks.forEach(
             element => {
                 element.checked = value;
-            }
-        )
-        layerContainers.forEach(
-            element => {
-                this.toggleDataset(value, element.id);
+                this.toggleDataset(value,element.id);
             }
         )
     }
@@ -290,9 +319,10 @@ class MenuWidget extends React.Component {
      * Method to show Active Layers of the map
      * @param {*} elem From the click event  
      */
-    addActiveLayer(elem) {
+    addActiveLayer(elem,order) {
         return (
-            <div className="active-layer" id={'active_' + elem.id} key={"a_" + elem.id}>
+            <div className="active-layer" id={'active_' + elem.id} key={"a_" + elem.id} layer-id={elem.id} layer-order={order} draggable="true" 
+            onDrop={(e)=>this.onDrop(e)} onDragOver={(e)=>this.onDragOver(e)} onDragStart={(e)=>this.onDragStart(e)} >
                 <div className="active-layer-name" name={elem.id} key={"b_" + elem.id}>{elem.title}</div>
                 <div className="active-layer-options" key={"c_" + elem.id}>
                     <span className="active-layer-hide"><i className="fas fa-eye" onClick={(e) => this.eyeLayer(e, elem.id)}></i></span>
@@ -300,7 +330,73 @@ class MenuWidget extends React.Component {
                 </div>
             </div>
         );
+    }
 
+    /**
+     * Behavior for drag-and-drop of active layers
+     * when dropping a layer upon another
+     * @param {*} e 
+     * @returns 
+     */
+    onDrop(e){
+        let dst = e.target.closest("div.active-layer");
+        if(dst===this.draggingElement) return;
+
+        //First, we decide how to insert the element in the DOM
+        let init_ord = this.draggingElement.getAttribute("layer-order");
+        let dst_ord = dst.getAttribute("layer-order");
+        this.draggingElement.parentElement.removeChild(this.draggingElement);
+        if(init_ord>dst_ord){
+
+            dst.parentElement.insertBefore(this.draggingElement,dst);
+        } else {
+            dst.parentElement.insertBefore(this.draggingElement,dst.nextSibling);
+        }
+
+        this.layersReorder();
+    }
+
+    /**
+     * Reorders the layers depending on the state of active layers panel
+     * @returns 
+     */
+    layersReorder(){
+        let counter = 0;
+        let reorder_elem = document.querySelector("#active_layers").firstChild;
+        if(!reorder_elem) return;
+        reorder_elem.setAttribute("layer-order",counter++)
+        this.layerReorder(reorder_elem.id,counter);
+        while(reorder_elem=reorder_elem.nextSibling){
+            reorder_elem.setAttribute("layer-order",counter++)
+            this.layerReorder(this.layers[reorder_elem.getAttribute("layer-id")],counter);
+        }
+    }
+
+    /**
+     * Assigns an index to a layer 
+     * (depending on its position on active layers panel)
+     * @param {*} layer 
+     * @param {*} index 
+     */
+    layerReorder(layer,index){
+        let lastNum = Object.keys(this.activeLayersJSON).length - 1;
+        this.map.reorder(layer,lastNum - index);
+    }
+
+    /**
+     * Needed to get the desired drag-and-drop behavior
+     * @param {*} e 
+     */
+    onDragOver(e){
+        e.preventDefault();
+    }
+
+    /**
+     * Needed to get the desired drag-and-drop behavior
+     * @param {*} e 
+     */
+    onDragStart(e){
+        this.draggingElement = e.target;
     }
 
     /**
@@ -312,12 +408,14 @@ class MenuWidget extends React.Component {
         var eye = e.target
         if (eye.className === 'fas fa-eye') {
             eye.className = 'fas fa-eye fa-eye-slash';
-            this.map.remove(this.layers[id])
+            this.layers[id].visible = false;
         }
         else {
             eye.className = 'fas fa-eye';
             this.map.add(this.layers[id])
+            this.layers[id].visible = true;
         }
+        this.layersReorder();
     }
 
     /**
@@ -331,9 +429,6 @@ class MenuWidget extends React.Component {
         this.toggleLayer(elem)
         delete (this.activeLayersJSON[elem.id])
         this.setState({})
-
-
-
     }
 
     /**
@@ -354,34 +449,10 @@ class MenuWidget extends React.Component {
         tab.setAttribute('aria-selected', 'true');
         panel.className = 'panel panel-selected';
         panel.setAttribute('aria-hidden', 'true');
+        if(tab.id === "active_label"){
+            this.layersReorder();
+        }
     }
-
-
-    // LEFT PART FOR RENDER IN MENU
-    //     <div class="map-download-datasets">
-    //     <div class="map-login-block">
-    //         <div class="login-content">
-    //             <button class="ccl-button ccl-button--default login-block-button">Login to download the data</button>
-    //             <p class="login-block-new">New user? <a href="../register.html">Follow this link to register</a></p>
-    //         </div>
-    //     </div>
-    //     <div class="map-area-block">
-    //         <button class="ccl-button ccl-button-green">Add to cart</button>
-    //         <div class="message-block">
-    //             <div class="message-icon">
-    //                 <i class="far fa-comment-alt"></i>
-    //             </div>
-    //             <div class="message-text">
-    //                 <p>This is a warning related to the funcionality of start downloading the datasets</p>
-    //                 <ul>
-    //                     <li>May be can include a link to somewhere</li>
-    //                     <li>Or an informative text</li>
-    //                 </ul>
-    //             </div>
-    //         </div>
-    //     </div>
-    // </div>
-
 
     /** 
      * This method renders the component
@@ -403,7 +474,7 @@ class MenuWidget extends React.Component {
                                 }
                             </div>
                             <div className="panel" id="active_panel" role="tabpanel" aria-hidden="true">
-                                <div className="map-active-layers">
+                                <div id="active_layers" className="map-active-layers">
                                     {
                                         this.activeLayersAsArray()
                                     }

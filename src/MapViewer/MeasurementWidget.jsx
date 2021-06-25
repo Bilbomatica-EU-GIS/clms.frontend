@@ -34,6 +34,7 @@ class MeasurementWidget extends React.Component {
             this.clearMeasurements();
             this.clearCoordinates();
         } else {
+            this.props.mapViewer.setActiveWidget(this);
             this.container.current.querySelector(".measurement-panel").style.display = 'block';
             this.container.current.querySelector(".esri-widget--button").classList.replace('esri-icon-measure','esri-icon-right-arrow');
             // By invoking the setState, we notify the state we want to reach

@@ -30,7 +30,7 @@ class LegendWidget extends React.Component {
             // and ensure that the component is rendered again
             this.setState({showMapMenu: false});
         } else {
-           
+            this.props.mapViewer.setActiveWidget(this);
             this.container.current.querySelector(".esri-widget--button").classList.replace('esri-icon-legend','esri-icon-right-arrow');
             this.container.current.querySelector(".legend-panel").style.display='block';
             // By invoking the setState, we notify the state we want to reach
