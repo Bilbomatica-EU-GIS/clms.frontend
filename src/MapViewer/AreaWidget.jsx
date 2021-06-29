@@ -34,6 +34,8 @@ class AreaWidget extends React.Component {
             // and ensure that the component is rendered again
             this.setState({showMapMenu: false});
             this.clearWidget();
+            this.container.current.querySelector("#download_area_select_nuts0").checked=true;
+
         } else {
             this.props.mapViewer.setActiveWidget(this);
             this.container.current.querySelector(".area-panel").style.display = 'block';
@@ -111,7 +113,7 @@ class AreaWidget extends React.Component {
         });
         this.setState({ShowGraphics:drawGraphics});
     }
-    clearWidget () {
+    clearWidget() {
         if (this.state.ShowGraphics) {
             this.state.ShowGraphics.remove();
             this.setState({ShowGraphics:null});
