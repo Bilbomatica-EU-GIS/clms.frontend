@@ -24,6 +24,7 @@ class MeasurementWidget extends React.Component {
      */
     openMenu() {
         if (this.state.showMapMenu) {
+            this.props.mapViewer.setActiveWidget();
             this.container.current.querySelector(".measurement-panel").style.display = 'none';
             this.container.current.querySelector(".esri-widget--button").classList.replace('esri-icon-right-arrow','esri-icon-measure');
             // By invoking the setState, we notify the state we want to reach

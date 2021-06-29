@@ -70,6 +70,10 @@ class MapViewer extends React.Component {
     }
 
     setActiveWidget(widget){
+        if(!widget){
+            this.activeWidget = null;
+            return;
+        }
         if(this.activeWidget === widget) return;
         this.closeActiveWidget();
         this.activeWidget = widget;
