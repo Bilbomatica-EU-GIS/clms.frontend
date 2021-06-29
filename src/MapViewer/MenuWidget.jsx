@@ -119,7 +119,7 @@ class MenuWidget extends React.Component {
         var inheritedIndex = inheritedIndex + "_" + prodIndex;
         var checkProduct = "map_product_" + inheritedIndex
         for (var i in product.Datasets) {
-            datasets.push(this.metodProcessDataset(product.Datasets[i], index, inheritedIndex,checkProduct));
+            datasets.push(this.metodProcessDataset(product.Datasets[i], index, inheritedIndex, checkProduct));
             index++;
 
         }
@@ -151,11 +151,11 @@ class MenuWidget extends React.Component {
      * Method to uncheck Product checkbox if not all dataset are checked
      * @param {*} productid  
      */
-     updateCheckProduct(productid){
-        let datasetChecks = Array.from(document.querySelectorAll("[parentid="+productid+"]"));
-        let productCheck = document.querySelector("#"+productid)
-        let trueCheck = datasetChecks.filter(elem=> elem.checked).length;
-        productCheck.checked = (datasetChecks.length===trueCheck)
+    updateCheckProduct(productid) {
+        let datasetChecks = Array.from(document.querySelectorAll("[parentid=" + productid + "]"));
+        let productCheck = document.querySelector("#" + productid)
+        let trueCheck = datasetChecks.filter(elem => elem.checked).length;
+        productCheck.checked = (datasetChecks.length === trueCheck)
     }
 
     /**
@@ -166,7 +166,7 @@ class MenuWidget extends React.Component {
      * @param {*} checkProduct 
      * @returns 
      */
-    metodProcessDataset(dataset, datIndex, inheritedIndex,checkProduct) {
+    metodProcessDataset(dataset, datIndex, inheritedIndex, checkProduct) {
         var layers = [];
         var index = 0;
         var inheritedIndex = inheritedIndex + "_" + datIndex;
@@ -203,11 +203,11 @@ class MenuWidget extends React.Component {
      * @param {*} id  
      */
 
-    updateCheckDataset(id){
-        let datasetCheck = document.querySelector("#"+id);
-        let layerChecks = Array.from(document.querySelectorAll("[parentid="+id+"]"));
-        let trueChecks = layerChecks.filter(elem=> elem.checked).length;
-        datasetCheck.checked = (layerChecks.length===trueChecks);
+    updateCheckDataset(id) {
+        let datasetCheck = document.querySelector("#" + id);
+        let layerChecks = Array.from(document.querySelectorAll("[parentid=" + id + "]"));
+        let trueChecks = layerChecks.filter(elem => elem.checked).length;
+        datasetCheck.checked = (layerChecks.length === trueChecks);
         this.updateCheckProduct(datasetCheck.getAttribute("parentid"));
     }
 
@@ -220,14 +220,32 @@ class MenuWidget extends React.Component {
      * @param {*} parentIndex 
      * @returns 
      */
-    metodProcessLayer(layer, layerIndex, inheritedIndex, urlWMS,parentIndex) {
+    metodProcessLayer(layer, layerIndex, inheritedIndex, urlWMS, parentIndex) {
+        //For Legend request
+        const legendRequest = "request=GetLegendGraphic&version=1.0.0&format=image/png&layer=";
         //For each layer
         var inheritedIndex = inheritedIndex + "_" + layerIndex;
 
+        //Add sublayers and popup enabled for layers 
         if (!this.layers.hasOwnProperty(layer.LayerId)) {
             this.layers[layer.LayerId] = new WMSLayer({
                 url: urlWMS,
-                id: layer.LayerId
+                featureInfoFormat: "text/html",
+                featureInfoUrl: urlWMS,
+                //id: layer.LayerId,
+                title:"",
+                legendEnabled: true,
+                sublayers: [
+                    {
+                        name: layer.LayerId,
+                        title:layer.Title,
+                        popupEnabled: true,
+                        queryable: true,
+                        visble:true,
+                        legendEnabled: true,
+                        legendUrl: urlWMS+legendRequest+layer.LayerId
+                    }
+                ]
             });
         }
 
@@ -247,10 +265,10 @@ class MenuWidget extends React.Component {
      */
     toggleLayer(elem) {
         var parentId = elem.getAttribute("parentid")
-        
+
         if (elem.checked) {
             this.map.add(this.layers[elem.id])
-            this.activeLayersJSON[elem.id] = this.addActiveLayer(elem,Object.keys(this.activeLayersJSON).length);
+            this.activeLayersJSON[elem.id] = this.addActiveLayer(elem, Object.keys(this.activeLayersJSON).length);
         }
         else {
             this.map.remove(this.layers[elem.id])
@@ -264,7 +282,7 @@ class MenuWidget extends React.Component {
      * Returns the DOM elements for active layers
      * just in the order they were added to map
      */
-     activeLayersAsArray() {
+    activeLayersAsArray() {
         let activeLayersArray = []
         for (var i in this.activeLayersJSON) {
             activeLayersArray.push(this.activeLayersJSON[i])
@@ -298,7 +316,7 @@ class MenuWidget extends React.Component {
         datasetChecks.forEach(
             element => {
                 element.checked = value;
-                this.toggleDataset(value,element.id);
+                this.toggleDataset(value, element.id);
             }
         )
     }
@@ -319,10 +337,10 @@ class MenuWidget extends React.Component {
      * Method to show Active Layers of the map
      * @param {*} elem From the click event  
      */
-    addActiveLayer(elem,order) {
+    addActiveLayer(elem, order) {
         return (
-            <div className="active-layer" id={'active_' + elem.id} key={"a_" + elem.id} layer-id={elem.id} layer-order={order} draggable="true" 
-            onDrop={(e)=>this.onDrop(e)} onDragOver={(e)=>this.onDragOver(e)} onDragStart={(e)=>this.onDragStart(e)} >
+            <div className="active-layer" id={'active_' + elem.id} key={"a_" + elem.id} layer-id={elem.id} layer-order={order} draggable="true"
+                onDrop={(e) => this.onDrop(e)} onDragOver={(e) => this.onDragOver(e)} onDragStart={(e) => this.onDragStart(e)} >
                 <div className="active-layer-name" name={elem.id} key={"b_" + elem.id}>{elem.title}</div>
                 <div className="active-layer-options" key={"c_" + elem.id}>
                     <span className="active-layer-hide"><i className="fas fa-eye" onClick={(e) => this.eyeLayer(e, elem.id)}></i></span>
@@ -338,19 +356,19 @@ class MenuWidget extends React.Component {
      * @param {*} e 
      * @returns 
      */
-    onDrop(e){
+    onDrop(e) {
         let dst = e.target.closest("div.active-layer");
-        if(dst===this.draggingElement) return;
+        if (dst === this.draggingElement) return;
 
         //First, we decide how to insert the element in the DOM
         let init_ord = this.draggingElement.getAttribute("layer-order");
         let dst_ord = dst.getAttribute("layer-order");
         this.draggingElement.parentElement.removeChild(this.draggingElement);
-        if(init_ord>dst_ord){
+        if (init_ord > dst_ord) {
 
-            dst.parentElement.insertBefore(this.draggingElement,dst);
+            dst.parentElement.insertBefore(this.draggingElement, dst);
         } else {
-            dst.parentElement.insertBefore(this.draggingElement,dst.nextSibling);
+            dst.parentElement.insertBefore(this.draggingElement, dst.nextSibling);
         }
 
         this.layersReorder();
@@ -360,15 +378,15 @@ class MenuWidget extends React.Component {
      * Reorders the layers depending on the state of active layers panel
      * @returns 
      */
-    layersReorder(){
+    layersReorder() {
         let counter = 0;
         let reorder_elem = document.querySelector("#active_layers").firstChild;
-        if(!reorder_elem) return;
-        reorder_elem.setAttribute("layer-order",counter++)
-        this.layerReorder(reorder_elem.id,counter);
-        while(reorder_elem=reorder_elem.nextSibling){
-            reorder_elem.setAttribute("layer-order",counter++)
-            this.layerReorder(this.layers[reorder_elem.getAttribute("layer-id")],counter);
+        if (!reorder_elem) return;
+        reorder_elem.setAttribute("layer-order", counter++)
+        this.layerReorder(reorder_elem.id, counter);
+        while (reorder_elem = reorder_elem.nextSibling) {
+            reorder_elem.setAttribute("layer-order", counter++)
+            this.layerReorder(this.layers[reorder_elem.getAttribute("layer-id")], counter);
         }
     }
 
@@ -378,16 +396,16 @@ class MenuWidget extends React.Component {
      * @param {*} layer 
      * @param {*} index 
      */
-    layerReorder(layer,index){
+    layerReorder(layer, index) {
         let lastNum = Object.keys(this.activeLayersJSON).length - 1;
-        this.map.reorder(layer,lastNum - index);
+        this.map.reorder(layer, lastNum - index);
     }
 
     /**
      * Needed to get the desired drag-and-drop behavior
      * @param {*} e 
      */
-    onDragOver(e){
+    onDragOver(e) {
         e.preventDefault();
     }
 
@@ -395,7 +413,7 @@ class MenuWidget extends React.Component {
      * Needed to get the desired drag-and-drop behavior
      * @param {*} e 
      */
-    onDragStart(e){
+    onDragStart(e) {
         this.draggingElement = e.target;
     }
 
@@ -449,7 +467,7 @@ class MenuWidget extends React.Component {
         tab.setAttribute('aria-selected', 'true');
         panel.className = 'panel panel-selected';
         panel.setAttribute('aria-hidden', 'true');
-        if(tab.id === "active_label"){
+        if (tab.id === "active_label") {
             this.layersReorder();
         }
     }
