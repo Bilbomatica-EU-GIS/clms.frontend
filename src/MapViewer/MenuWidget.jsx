@@ -232,11 +232,13 @@ class MenuWidget extends React.Component {
                 url: urlWMS,
                 featureInfoFormat: "text/html",
                 featureInfoUrl: urlWMS,
-                id: layer.LayerId,
+                //id: layer.LayerId,
+                title:"",
                 legendEnabled: true,
                 sublayers: [
                     {
-                        //name: layer.LayerId,
+                        name: layer.LayerId,
+                        title:layer.Title,
                         popupEnabled: true,
                         queryable: true,
                         visble:true,
