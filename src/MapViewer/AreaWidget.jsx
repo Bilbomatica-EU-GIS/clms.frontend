@@ -27,6 +27,7 @@ class AreaWidget extends React.Component {
      */
     openMenu() {
         if (this.state.showMapMenu) {
+            this.props.mapViewer.setActiveWidget();
             this.container.current.querySelector(".area-panel").style.display = 'none';
             this.container.current.querySelector(".esri-widget--button").classList.replace('esri-icon-right-arrow','esri-icon-cursor-marquee');
             // By invoking the setState, we notify the state we want to reach

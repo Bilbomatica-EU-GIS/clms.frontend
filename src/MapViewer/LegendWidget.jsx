@@ -24,13 +24,14 @@ class LegendWidget extends React.Component {
      */
     openMenu() {
         if (this.state.showMapMenu) {
+            //this.props.mapViewer.setActiveWidget();
             this.container.current.querySelector(".legend-panel").style.display='none';
             this.container.current.querySelector(".esri-widget--button").classList.replace('esri-icon-right-arrow','esri-icon-legend');
             // By invoking the setState, we notify the state we want to reach
             // and ensure that the component is rendered again
             this.setState({showMapMenu: false});
         } else {
-            this.props.mapViewer.setActiveWidget(this);
+            //this.props.mapViewer.setActiveWidget(this);
             this.container.current.querySelector(".esri-widget--button").classList.replace('esri-icon-legend','esri-icon-right-arrow');
             this.container.current.querySelector(".legend-panel").style.display='block';
             // By invoking the setState, we notify the state we want to reach

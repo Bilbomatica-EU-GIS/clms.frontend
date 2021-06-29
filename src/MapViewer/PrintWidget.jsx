@@ -27,6 +27,7 @@ class PrintWidget extends React.Component {
      */
     openMenu() {
         if (this.state.showMapMenu) {
+            this.props.mapViewer.setActiveWidget();
             this.print.domNode.style.display = 'none';
             this.container.current.querySelector(".esri-widget--button").classList.replace('esri-icon-right-arrow','esri-icon-printer');
             // By invoking the setState, we notify the state we want to reach

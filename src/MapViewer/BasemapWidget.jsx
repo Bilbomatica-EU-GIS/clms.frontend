@@ -30,6 +30,7 @@ class BasemapWidget extends React.Component {
             this.loadFirst = false;
         }
         if (this.state.showMapMenu) {
+            this.props.mapViewer.setActiveWidget();
             this.basemapGallery.domNode.style.display = 'none';
             this.container.current.querySelector(".esri-widget--button").classList.replace('esri-icon-right-arrow','esri-icon-basemap');
             // By invoking the setState, we notify the state we want to reach

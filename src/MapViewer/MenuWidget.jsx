@@ -32,6 +32,7 @@ class MenuWidget extends React.Component {
      */
     openMenu() {
         if (this.state.showMapMenu) {
+            this.props.mapViewer.setActiveWidget();
             this.container.current.querySelector('#tabcontainer').style.display = 'none';
             this.container.current.querySelector('#paneles').style.display = 'none';
             this.container.current.querySelector(".esri-widget--button").classList.replace('esri-icon-left-arrow', 'esri-icon-drag-horizontal');
