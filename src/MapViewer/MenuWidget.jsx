@@ -221,6 +221,8 @@ class MenuWidget extends React.Component {
      * @returns 
      */
     metodProcessLayer(layer, layerIndex, inheritedIndex, urlWMS, parentIndex) {
+        //For Legend request
+        const legendRequest = "request=GetLegendGraphic&version=1.0.0&format=image/png&layer=";
         //For each layer
         var inheritedIndex = inheritedIndex + "_" + layerIndex;
 
@@ -230,11 +232,16 @@ class MenuWidget extends React.Component {
                 url: urlWMS,
                 featureInfoFormat: "text/html",
                 featureInfoUrl: urlWMS,
+                id: layer.LayerId,
+                legendEnabled: true,
                 sublayers: [
                     {
-                        name: layer.LayerId,
+                        //name: layer.LayerId,
                         popupEnabled: true,
-                        queryable: true
+                        queryable: true,
+                        visble:true,
+                        legendEnabled: true,
+                        legendUrl: urlWMS+legendRequest+layer.LayerId
                     }
                 ]
             });
@@ -259,7 +266,6 @@ class MenuWidget extends React.Component {
 
         if (elem.checked) {
             this.map.add(this.layers[elem.id])
-            console.log(this.layers[elem.id])
             this.activeLayersJSON[elem.id] = this.addActiveLayer(elem, Object.keys(this.activeLayersJSON).length);
         }
         else {
