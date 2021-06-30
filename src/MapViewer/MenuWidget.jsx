@@ -177,6 +177,10 @@ class MenuWidget extends React.Component {
             layers.push(this.metodProcessLayer(dataset.Layer[i], index, inheritedIndex, dataset.ViewService, checkIndex));
             index++;
         }
+
+        // ./dataset-catalogue/dataset-info.html
+        // ./dataset-catalogue/dataset-download.html
+
         return (
             <div className="ccl-form-group map-menu-dataset" id={"dataset_ " + inheritedIndex} key={"a" + datIndex}>
                 <div className="map-dataset-checkbox" key={"b" + datIndex}>
@@ -185,11 +189,16 @@ class MenuWidget extends React.Component {
                         <span>{dataset.DatasetTitle}</span>
                     </label>
                     <div className="map-menu-icons">
-                        <a href="./dataset-catalogue/dataset-info.html" className="map-menu-icon" aria-label="Dataset info">
+                        {/*
+                        <a href="#" className="map-menu-icon" aria-label="Dataset info">
                             <i className="fas fa-info-circle"></i></a>
-                        <a href="./dataset-catalogue/dataset-download.html" className="map-menu-icon" aria-label="Dataset download">
-                            <i className="fas fa-download"></i>
-                        </a>
+                        <a href="#" className="map-menu-icon" aria-label="Dataset download">
+                            <i className="fas fa-download"></i></a>
+                        */}
+                        <span className="map-menu-icon" aria-label="Dataset info">
+                            <i className="fas fa-info-circle"></i></span>
+                        <span className="map-menu-icon" aria-label="Dataset download">
+                            <i className="fas fa-download"></i></span>
                     </div>
                 </div>
                 <div className="ccl-form map-menu-layers-container" id={"layer_container_" + dataset.DatasetId}>
@@ -329,7 +338,7 @@ class MenuWidget extends React.Component {
 
     toggleDropdownContent(e) {
         var aria = e.target.getAttribute('aria-expanded');
-        e.target.setAttribute("aria-expanded", aria == 'true' ? 'false' : 'true');
+        e.target.setAttribute("aria-expanded", aria === 'true' ? 'false' : 'true');
     }
 
 

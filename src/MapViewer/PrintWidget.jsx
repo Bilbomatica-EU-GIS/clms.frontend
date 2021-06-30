@@ -1,5 +1,5 @@
 import Print from "@arcgis/core/widgets/Print";
-import React, { useState, createRef } from "react";
+import React, { createRef } from "react";
 import "@arcgis/core/assets/esri/css/main.css";
 import "./ArcgisMap.css";
 
@@ -54,7 +54,6 @@ class PrintWidget extends React.Component {
     }
 
     componentDidUpdate() {
-        let exportBtn = document.querySelector(".esri-print__export-button");
         this.setLayoutConstraints();
         this.setMapOnlyConstraints();
     }
@@ -69,7 +68,7 @@ class PrintWidget extends React.Component {
         var observer = new MutationObserver(
             (mutations) => {
                 mutations.forEach((mutation)=>{
-                    if(mutation.attributeName == "aria-selected"){
+                    if(mutation.attributeName === "aria-selected"){
                         let currentExpand = mutation.target.getAttribute("aria-selected");
                         if(currentExpand==="true"){
                             this.setTextFilters();
@@ -96,7 +95,7 @@ class PrintWidget extends React.Component {
         //If advanced options are deployed, same restriction for all the text inputs
         var advancedFunction = (mutations) => {
             mutations.forEach((mutation)=>{
-                if(mutation.attributeName == "aria-expanded"){
+                if(mutation.attributeName === "aria-expanded"){
                     let currentExpand = mutation.target.getAttribute("aria-expanded");
                     if(currentExpand){
                         this.setTextFilters();
