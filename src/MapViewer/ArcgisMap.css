@@ -534,12 +534,13 @@ html * {
 .active-layer-options > span {
   margin-left: 1rem;
 }
+/* To show both arrows, change all to visible */
 .active-layer i.fa-long-arrow-alt-up {
-  visibility: hidden;
+  visibility: visible;
   margin-right: 0.25rem;
 }
 .active-layer i.fa-long-arrow-alt-down {
-  visibility: hidden;
+  visibility: visible;
 }
 .active-layer:first-of-type i.fa-long-arrow-alt-down {
   visibility: visible;
@@ -551,7 +552,7 @@ html * {
   visibility: visible;
 }
 .active-layer:last-of-type i.fa-long-arrow-alt-down {
-  visibility: hidden;
+  visibility: visible;
 }
 .active-layer-options .active-layer-hide i {
   width: 20px;

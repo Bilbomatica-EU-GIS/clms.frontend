@@ -234,17 +234,17 @@ class MenuWidget extends React.Component {
                 featureInfoFormat: "text/html",
                 featureInfoUrl: urlWMS,
                 //id: layer.LayerId,
-                title:"",
+                title: "",
                 legendEnabled: true,
                 sublayers: [
                     {
                         name: layer.LayerId,
-                        title:layer.Title,
+                        title: layer.Title,
                         popupEnabled: true,
                         queryable: true,
-                        visble:true,
+                        visble: true,
                         legendEnabled: true,
-                        legendUrl: urlWMS+legendRequest+layer.LayerId
+                        legendUrl: urlWMS + legendRequest + layer.LayerId
                     }
                 ]
             });
@@ -344,6 +344,10 @@ class MenuWidget extends React.Component {
                 onDrop={(e) => this.onDrop(e)} onDragOver={(e) => this.onDragOver(e)} onDragStart={(e) => this.onDragStart(e)} >
                 <div className="active-layer-name" name={elem.id} key={"b_" + elem.id}>{elem.title}</div>
                 <div className="active-layer-options" key={"c_" + elem.id}>
+                    <span className="active-layer-position" key={"d_" + elem.id}>
+                        <span className="active-layer-position-up"><i className="fas fa-long-arrow-alt-up"></i></span>
+                        <span className="active-layer-position-down"><i className="fas fa-long-arrow-alt-down"></i></span>
+                    </span>
                     <span className="active-layer-hide"><i className="fas fa-eye" onClick={(e) => this.eyeLayer(e, elem.id)}></i></span>
                     <span className="active-layer-delete"><i className="fas fa-times" onClick={() => this.deleteCrossEvent(elem)}></i></span>
                 </div>
