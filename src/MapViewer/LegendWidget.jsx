@@ -1,5 +1,5 @@
 import Legend from "@arcgis/core/widgets/Legend";
-import React, {useState, createRef } from "react";
+import React, {createRef } from "react";
 import "@arcgis/core/assets/esri/css/main.css";
 import "./ArcgisMap.css";
 

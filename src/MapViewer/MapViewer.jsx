@@ -1,6 +1,6 @@
-import React, { useRef, useEffect, useState, useCallback, createRef } from "react";
+import React, { createRef } from "react";
 //import intl from "@arcgis/intl";
-import {getLocale, setLocale} from "@arcgis/core/intl";
+import {setLocale} from "@arcgis/core/intl";
 import Map from "@arcgis/core/Map";
 import MapView from "@arcgis/core/views/MapView";
 import Zoom from "@arcgis/core/widgets/Zoom";

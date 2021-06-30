@@ -2,7 +2,7 @@ import Graphic from "@arcgis/core/Graphic";
 import Extent from "@arcgis/core/geometry/Extent";
 import WMSLayer from "@arcgis/core/layers/WMSLayer";
 import GroupLayer from "@arcgis/core/layers/GroupLayer";
-import React, { useState, createRef } from "react";
+import React, { createRef } from "react";
 import "@arcgis/core/assets/esri/css/main.css";
 import "./ArcgisMap.css";
 
