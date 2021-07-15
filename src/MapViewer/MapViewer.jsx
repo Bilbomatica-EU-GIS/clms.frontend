@@ -6,6 +6,7 @@ import MapView from "@arcgis/core/views/MapView";
 import Zoom from "@arcgis/core/widgets/Zoom";
 import "@arcgis/core/assets/esri/css/main.css";
 import "./ArcgisMap.css";
+import Popup from "@arcgis/core/widgets/Popup";
 import BasemapWidget from './BasemapWidget';
 import MeasurementWidget from './MeasurementWidget';
 import PrintWidget from './PrintWidget';
@@ -60,6 +61,8 @@ class MapViewer extends React.Component {
         this.view.ui.add(this.zoom, {
             position: "top-right"
         });
+        // Enable popup default Template for highlighting selected features
+        this.view.popup.defaultPopupTemplateEnabled = true;
 
         //Once we have created the MapView, we need to ensure that the map div
         //is refreshed in order to show the map on it. To do so, we need to
