@@ -557,6 +557,9 @@ html * {
 .active-layer-options .active-layer-hide i {
   width: 20px;
 }
+#nolayers_message {
+  padding: 1rem;
+}
 
 /* Download area */
 .map-download-area-container {
