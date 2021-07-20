@@ -276,13 +276,16 @@ class MenuWidget extends React.Component {
     toggleLayer(elem) {
         var parentId = elem.getAttribute("parentid")
 
+
         if (elem.checked) {
             this.map.add(this.layers[elem.id])
             this.activeLayersJSON[elem.id] = this.addActiveLayer(elem, Object.keys(this.activeLayersJSON).length);
+
         }
         else {
             this.map.remove(this.layers[elem.id])
             delete (this.activeLayersJSON[elem.id])
+
         }
         this.updateCheckDataset(parentId);
         this.setState({});
@@ -293,12 +296,20 @@ class MenuWidget extends React.Component {
      * just in the order they were added to map
      */
     activeLayersAsArray() {
+        var messageLayers = document.querySelector("#nolayers_message")
         let activeLayersArray = []
+
         for (var i in this.activeLayersJSON) {
             activeLayersArray.push(this.activeLayersJSON[i])
         }
 
-        return activeLayersArray.reverse();
+        if (!activeLayersArray.length) {
+            messageLayers && (messageLayers.style.display = "block")
+        } else (
+            messageLayers && (messageLayers.style.display = "none")
+        )
+
+        return activeLayersArray.reverse()
     }
 
     /**
@@ -340,8 +351,6 @@ class MenuWidget extends React.Component {
         var aria = e.target.getAttribute('aria-expanded');
         e.target.setAttribute("aria-expanded", aria === 'true' ? 'false' : 'true');
     }
-
-
 
     /**
      * Method to show Active Layers of the map
@@ -441,6 +450,7 @@ class MenuWidget extends React.Component {
         if (eye.className === 'fas fa-eye') {
             eye.className = 'fas fa-eye fa-eye-slash';
             this.layers[id].visible = false;
+
         }
         else {
             eye.className = 'fas fa-eye';
@@ -487,6 +497,7 @@ class MenuWidget extends React.Component {
     }
 
     /** 
+     * <span className="message" id="nolayers_message" aria-hidden= "true">No Layer Selected</span>
      * This method renders the component
      * @returns jsx
      */
@@ -510,6 +521,7 @@ class MenuWidget extends React.Component {
                                     {
                                         this.activeLayersAsArray()
                                     }
+                                    <span className="message" id="nolayers_message"> No layers selected </span>
                                 </div>
                             </div>
                         </div>
