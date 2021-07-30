@@ -4,8 +4,6 @@ services:
     image: bmeugis/clms-frontend:1.0
     ports:
       - 3000:3000
-    depends_on:
-      - ploneapi
     environment:
       API_PATH: "http://localhost:62934/Plone"
       INTERNAL_API_PATH: "http://localhost:62934/Plone"
