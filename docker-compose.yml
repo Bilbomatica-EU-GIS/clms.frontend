@@ -1,0 +1,14 @@
+version: "2"
+services:
+  frontend:
+    image: bm-eugis/clms-frontend:1.0
+    ports:
+      - 3000:3000
+    depends_on:
+      - ploneapi
+    environment:
+      API_PATH: "http://localhost:62934/Plone"
+      INTERNAL_API_PATH: "http://localhost:62934/Plone"
+volumes:
+  data:
+    driver: local
