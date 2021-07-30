@@ -1,7 +1,7 @@
 version: "2"
 services:
   frontend:
-    image: bm-eugis/clms-frontend:1.0
+    image: bmeugis/clms-frontend:1.0
     ports:
       - 3000:3000
     depends_on:
