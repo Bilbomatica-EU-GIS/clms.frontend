@@ -13,10 +13,11 @@ WORKDIR /opt/frontend/
 USER node
 
 RUN RAZZLE_API_PATH=VOLTO_API_PATH RAZZLE_INTERNAL_API_PATH=VOLTO_INTERNAL_API_PATH yarn \
+    && missdev --config=jsconfig.json --output=addons \ 
     && RAZZLE_API_PATH=VOLTO_API_PATH RAZZLE_INTERNAL_API_PATH=VOLTO_INTERNAL_API_PATH yarn build \
     && rm -rf /home/node/.cache
 
 EXPOSE 3000 3001 4000 4001
 
 ENTRYPOINT ["/opt/frontend/entrypoint-prod.sh"]
-CMD ["yarn", "start:prod"]
+CMD ["yarn", "NODE_ENV=production node build/server.js"]
