@@ -22,6 +22,7 @@
     "build": "react-scripts build",
     "deploy": "gh-pages -d build",
     "test": "react-scripts test",
+    "develop": "missdev --config=jsconfig.json --output=addons",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
