@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "paths": {
+            "@eeacms/volto-clms-theme": [
+                "addons/volto-clms-theme/src"
+            ],
+            "@eeacms/volto-arcgis-block": [
+                "addons/volto-arcgis-block/src"
+            ]
+        },
+        "baseUrl": "src"
+    }
+}
