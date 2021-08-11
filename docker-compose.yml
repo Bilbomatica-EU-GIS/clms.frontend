@@ -8,8 +8,8 @@ services:
     depends_on:
       - ploneapi
     environment:
-      API_PATH: 'http://localhost:62934/Plone'
-      INTERNAL_API_PATH: 'http://ploneapi:62934/Plone'
+      API_PATH: 'http://10.1.0.11:62934/Plone'
+      INTERNAL_API_PATH: 'http://10.1.0.11:62934/Plone'
 
 volumes:
   data:
