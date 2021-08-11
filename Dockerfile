@@ -19,4 +19,4 @@ RUN RAZZLE_API_PATH=VOLTO_API_PATH RAZZLE_INTERNAL_API_PATH=VOLTO_INTERNAL_API_P
 EXPOSE 3000 3001 4000 4001
 
 ENTRYPOINT ["/opt/frontend/entrypoint-prod.sh"]
-CMD ["yarn", "NODE_ENV=production node build/server.js"]
+CMD ["yarn", "start"]
