@@ -2,7 +2,7 @@ version: '3'
 
 services:
   frontend:
-    image: eeacms/clms-frontend
+    image: docker pull bmeugis/clms-frontend:1.0
     ports:
       - '${FRONTEND:-8000}:3000'
     depends_on:
