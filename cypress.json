@@ -1,5 +1,5 @@
 {
-  "baseUrl": "http://localhost:3000",
+  "baseUrl": "http://csdo001.westeurope.cloudapp.azure.com:3000",
   "viewportWidth": 1280,
   "defaultCommandTimeout": 15000,
   "reporter": "junit",
