@@ -27,7 +27,7 @@ if [ -z "$TIMEOUT" ]; then
 fi
 
 if [ -z "$RAZZLE_API_PATH" ]; then
-  RAZZLE_API_PATH="http://plone:8080/energy"
+  RAZZLE_API_PATH="http://csdo001.westeurope.cloudapp.azure.com:8080/Plone"
 fi
 
 if [ -z "$CYPRESS_API_PATH" ]; then
@@ -40,7 +40,7 @@ if [[ "$1" == "cypress"* ]]; then
   RAZZLE_API_PATH=$RAZZLE_API_PATH yarn start &
   
   cd /opt/frontend
-  exec bash -c "wait-on -t $TIMEOUT http://localhost:3000 && NODE_ENV=production CYPRESS_API_PATH=$CYPRESS_API_PATH ./node_modules/cypress/bin/cypress run"
+  exec bash -c "wait-on -t $TIMEOUT http://csdo001.westeurope.cloudapp.azure.com:3000 && NODE_ENV=production CYPRESS_API_PATH=$CYPRESS_API_PATH ./node_modules/cypress/bin/cypress run"
   exit 0
 fi
 
