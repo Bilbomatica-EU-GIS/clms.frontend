@@ -4,10 +4,24 @@ services:
     image: bmeugis/clms-frontend:1.0
     ports:
       - 3000:3000
+    depends_on:
+      - ploneapi
+  ploneapi:
+    image: bmeugis/clms.downloadtool:1.0
+    ports:
+      - 8080:8080
     environment:
-      API_PATH: "http://10.1.0.11:62934/Plone"
-      INTERNAL_API_PATH: "http://10.1.0.11:62934/Plone"
-      VOLTO_API_PATH: "http://10.1.0.11:62934/Plone"
+      CORS_ALLOW_ORIGIN: "*"
+    depends_on:
+      - memcached
+    volumes:
+      - data:/data
+      - app:/plone/instance/src/clms.downloadtool/
+  memcached:
+    image: memcached
+    command:
+      - "-m"
+      - "512"
 volumes:
   data:
     driver: local
