@@ -11,7 +11,11 @@
  *   }
  * }
  */
-
+export const settings = {
+  ...defaultSettings,
+  devProxyToApiPath: 'http://localhost:8080/Plone',
+  apiPath: 'http://10.1.0.11:8080/Plone'
+};
 import {
   settings as defaultSettings,
   views as defaultViews,
