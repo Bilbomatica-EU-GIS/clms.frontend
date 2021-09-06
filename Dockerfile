@@ -12,12 +12,12 @@ RUN chown -R node /opt/frontend/
 WORKDIR /opt/frontend/
 USER node
 
-ENV VOLTO_API_PATH="http://10.1.0.11:8080/Plone"
-ENV VOLTO_INTERNAL_API_PATH="http://10.1.0.11:8080/Plone"
-ENV RAZZLE_API_PATH="http://10.1.0.11:8080/Plone"
-ENV VOLTO_INTERNAL_API_PATH="http://10.1.0.11:8080/Plone"
-ENV API_PATH="http://10.1.0.11:8080/Plone"
-ENV INTERNAL_API_PATH="http://10.1.0.11:8080/Plone"
+ENV VOLTO_API_PATH="http://csdo001.westeurope.cloudapp.azure.com:8080/Plone"
+ENV VOLTO_INTERNAL_API_PATH="http://csdo001.westeurope.cloudapp.azure.com:8080/Plone"
+ENV RAZZLE_API_PATH="http://csdo001.westeurope.cloudapp.azure.com:8080/Plone"
+ENV VOLTO_INTERNAL_API_PATH="http://csdo001.westeurope.cloudapp.azure.com:8080/Plone"
+ENV API_PATH="http://csdo001.westeurope.cloudapp.azure.com:8080/Plone"
+ENV INTERNAL_API_PATH="http://csdo001.westeurope.cloudapp.azure.com:8080/Plone"
 
 RUN RAZZLE_API_PATH=VOLTO_API_PATH RAZZLE_INTERNAL_API_PATH=VOLTO_INTERNAL_API_PATH yarn \
     && yarn develop \
